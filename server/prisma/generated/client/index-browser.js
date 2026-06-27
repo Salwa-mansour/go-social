@@ -126,7 +126,9 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   password: 'password',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  bio: 'bio',
+  avatarUrl: 'avatarUrl'
 };
 
 exports.Prisma.RefreshTokenScalarFieldEnum = {
@@ -136,6 +138,38 @@ exports.Prisma.RefreshTokenScalarFieldEnum = {
   isRevoked: 'isRevoked',
   expiresAt: 'expiresAt',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.PostScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  authorId: 'authorId'
+};
+
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  postId: 'postId',
+  authorId: 'authorId'
+};
+
+exports.Prisma.LikeScalarFieldEnum = {
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.FollowRequestScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -152,11 +186,19 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.RequestStatus = exports.$Enums.RequestStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
-  RefreshToken: 'RefreshToken'
+  RefreshToken: 'RefreshToken',
+  Post: 'Post',
+  Comment: 'Comment',
+  Like: 'Like',
+  FollowRequest: 'FollowRequest'
 };
 
 /**

@@ -20,6 +20,19 @@ model User {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   refreshTokens RefreshToken[]
+
+  // Portfolio specific fields
+  bio       String?
+  avatarUrl String?
+
+  // Social Relations
+  posts    Post[]
+  comments Comment[]
+  likes    Like[]
+
+  // Follow Request relations (Self-referencing relationship)
+  sentRequests     FollowRequest[] @relation("RequestSender")
+  receivedRequests FollowRequest[] @relation("RequestReceiver")
 }
 
 model RefreshToken {
@@ -30,4 +43,75 @@ model RefreshToken {
   isRevoked Boolean  @default(false)
   expiresAt DateTime
   createdAt DateTime @default(now())
+}
+
+// 2. POST MODEL
+model Post {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  authorId String
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments Comment[]
+  likes    Like[]
+
+  //  Optimizes filtering posts by who wrote them AND sorting by newest
+  @@index([authorId, createdAt(sort: Desc)])
+}
+
+// 3. COMMENT MODEL
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  postId   String
+  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+// 4. LIKE MODEL (Junction table using a composite primary key)
+model Like {
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  // This ensures a user can only like a specific post exactly once
+  @@id([userId, postId])
+}
+
+// 5. FOLLOW REQUEST MODEL (Self-referencing Junction table)
+model FollowRequest {
+  id         String        @id @default(uuid())
+  senderId   String
+  receiverId String
+  status     RequestStatus @default(PENDING)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  // Relations mapping back to the User model
+  sender   User @relation("RequestSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User @relation("RequestReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  // Prevents multiple pending/active requests between the same two accounts
+  @@unique([senderId, receiverId])
+  //  Optimizes looking up who a specific user is currently following
+  @@index([senderId, status])
+}
+
+// Enum to manage follow request states securely
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
 }
