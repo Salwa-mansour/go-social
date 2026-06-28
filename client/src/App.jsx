@@ -8,6 +8,7 @@ import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/PersistLogin";
 import Home from "./components/Home";
 import Missing from "./components/Missing";
+import EditProfile from './components/user/EditProfile';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route element={<PersistLogin />}>
            <Route element={<RequireAuth />}> 
                  <Route path="/" element={<Home />} />
+                 <Route path="editProfile" element={<EditProfile/>}/>
            </Route>
           </Route> 
         {/* Fallbacks & Redirects */}

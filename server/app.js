@@ -5,6 +5,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser'; // ADDED: To read refresh tokens from cookies
 import cors from 'cors'; // ADDED: To allow your frontend to talk to the API
 import authRouter from './routes/authRouter.js';
+import userRouter from './routes/userRouter.js'
 import './config/passport.js';
 const app = express();
 
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to the API server!" });
 });
 app.use("/auth", authRouter);
+app.use("/user",userRouter);
 
 // The Global Error Middleware
 app.use((err, req, res, next) => {

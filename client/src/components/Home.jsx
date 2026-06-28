@@ -1,6 +1,7 @@
 import { useAuth } from "../hooks/useAuth";
 
 
+
 const Home = () => {
     const { auth } = useAuth();
  console.log("Current Auth State on Home:", auth);
@@ -10,8 +11,8 @@ const Home = () => {
             <h1>Home</h1>
             <br />
             <p>wellcom {auth?.username || 'Guest'}</p>
-         
-        
+
+
         </section>
     )
 }
