@@ -1,4 +1,5 @@
-import * as userService from '../servises/userService'
+import * as userService from '../servises/userService.js';
+import catchAsync from '../utils/catchAsyncError.js';
 
  export const updateProfile = catchAsync(async (req, res, next) => {
   try {
@@ -6,7 +7,7 @@ import * as userService from '../servises/userService'
     const { bio, avatarUrl } = req.body;
     
     // 2. req.user is set by your boilerplate's authenticateToken middleware
-    const userId = req.user?.id; 
+   const userId = req.user?.id || req.user?.userId;
 
     if (!userId) {
       return res.status(401).json({ error: "Unauthorized: Missing user context" });
@@ -18,7 +19,7 @@ import * as userService from '../servises/userService'
     if (avatarUrl !== undefined && avatarUrl !== '') updateData.avatarUrl = avatarUrl;
 
     // 4. Update the record in your database via Prisma
-    const updatedUser = await userService.updateProfile(userId,bio,avatarUrl);
+    const updatedUser = await userService.updateProfile(userId,updateData);
 
     // 5. Send back the updated information
     return res.status(200).json({
@@ -37,5 +38,3 @@ import * as userService from '../servises/userService'
     return res.status(500).json({ error: "An internal server error occurred" });
   }
 });
-
-module.exports = { updateProfile };

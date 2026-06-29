@@ -1,5 +1,4 @@
-
-const cloudinary = require('cloudinary').v2;
+import { v2 as cloudinary } from 'cloudinary';
 import catchAsync from '../utils/catchAsyncError.js'; // 💡 Import your new async wrapper
 
 
@@ -17,6 +16,7 @@ export const  generateUploadSignture =catchAsync(async (req, res, next) => {
     const paramsToSign = {
       timestamp: timestamp,
       folder: 'mini-social-avatars', 
+      transformation: 'w_400,c_limit', // Limits width to 400px, preserves aspect ratio
     };
 
     // Generate the signature using your API Secret hidden on the server

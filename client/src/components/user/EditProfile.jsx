@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'; // Your private interceptor hook
-import axios from "../api/axios";
+import axios from 'axios';
 
-export default function EditProfile() {
+const  EditProfile =()=> {
   const axiosPrivate = useAxiosPrivate();
   
   const [bio, setBio] = useState('');
@@ -17,12 +17,18 @@ export default function EditProfile() {
 
     // If the user selected a new profile picture
     if (image) {
+        const ONE_MEGABYTE = 1 * 1024 * 1024; // 1,048,576 bytes
+      
+        if (image.size > ONE_MEGABYTE) {
+          alert("File is too large! Please choose an image smaller than 1MB.");
+          return; // Stop the upload sequence completely
+        }
       try {
         // STEP 1: Get the secure upload signature from your backend
         // axiosPrivate automatically injects your Access Token and handles refreshes!
         const sigResponse = await axiosPrivate.get('/user/generate-upload-signature');
         const { signature, timestamp, apiKey, cloudName } = sigResponse.data;
-
+        console.log(sigResponse.data);
         // Package up the image alongside the signature parameters
         const formData = new FormData();
         formData.append('file', image);
@@ -30,7 +36,7 @@ export default function EditProfile() {
         formData.append('timestamp', timestamp);
         formData.append('signature', signature);
         formData.append('folder', 'mini-social-avatars'); // Must match backend folder key exactly
-
+        formData.append('transformation', 'w_400,c_limit');//set image width as 400 px
         // STEP 2: Send file directly to Cloudinary using raw unintercepted axios
         const cloudResponse = await axios.post(
           `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,

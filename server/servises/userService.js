@@ -1,6 +1,6 @@
-import prisma from '../data/connection';
+import prisma from '../data/connection.js';
 
-export const updateProfile = async(userId,bio,avatarUrl)=>{
+export const updateProfile = async(userId,updateData)=>{
  return   prisma.user.update({
       where: { 
         id: userId 
@@ -8,13 +8,10 @@ export const updateProfile = async(userId,bio,avatarUrl)=>{
       data: updateData,
       select: {
         id: true,
-        username: true,
+        name: true,
         email: true,
         bio: true,
         avatarUrl: true,
-        portfolioUrl: true,
-        githubUrl: true,
-        createdAt: true
       }
     });
 }

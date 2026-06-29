@@ -3,7 +3,7 @@
 import jwt from 'jsonwebtoken';
 
 // MODIFIED: Replaces the old "req.isAuthenticated()" check
-module.exports = (req, res, next) => {
+ export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(" ")[1]; // Format: Bearer <token>
 

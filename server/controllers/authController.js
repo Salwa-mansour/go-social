@@ -51,7 +51,7 @@ export const loginUser = catchAsync(async (req, res, next) => {
   }
 
   const user = await authService.findByEmail(email);
-  
+
   if (!user) {
     const err = new Error("Invalid credentials");
     err.statusCode = 401;
@@ -80,6 +80,7 @@ export const loginUser = catchAsync(async (req, res, next) => {
       username: user.name,
       email: user.email
     } 
+    
   });
 });
 
