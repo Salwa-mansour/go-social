@@ -48,7 +48,7 @@ app.use((err, req, res, next) => {
 app.use('/{*splat}', async (req, res) => {
     // *splat matches any path without the root path. If you need to match the root path as well /, you can use /{*splat}, wrapping the wildcard in braces.
     //res.sendFile(path.join(__dirname,'views','404.html'))
-      res.status("404").json( { message: `path ${req.originalUrl} not found ` } );
+      res.status(404).json( { message: `path ${req.originalUrl} not found ` } );
   });
  
  const PORT = process.env.PORT || 3000;

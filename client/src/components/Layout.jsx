@@ -8,6 +8,8 @@ const Layout = () => {
         <main className="App">
             <LogoutBtn />
             <Link to="/editprofile">edit Profile</Link>
+            <Link to="/allUsers">discover</Link>
+            <Link to="/pendingRequests"> Requests</Link>
             <Outlet />
         </main>
     )

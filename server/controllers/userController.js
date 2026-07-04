@@ -1,6 +1,34 @@
 import * as userService from '../servises/userService.js';
 import catchAsync from '../utils/catchAsyncError.js';
 
+export const getAllUsers = catchAsync(async (req, res, next) => {
+  // 1. Extract the current logged-in user's ID from the JWT payload
+  const currentUserId = req.user?.userId || req.user?.id;
+
+  // 2. Fetch all users from the database except the logged-in user themselves
+  const allUsersFromDb = await userService.userswithFollowStatus(currentUserId);
+
+  // 3. Map over the data to turn the Prisma relation array into explicit status booleans
+  const usersWithFollowStatus = allUsersFromDb.map((user) => {
+    // Check if there's an active request sent by the logged-in user
+    const dynamicRequest = user.receivedRequests[0]; 
+
+    return {
+      id: user.id,
+      email: user.email,
+      username: user.name, // Mapping 'name' to 'username' for your React component
+      bio: user.bio,
+      avatarUrl: user.avatarUrl,
+      // true if an ACCEPTED request exists
+      isFollowing: dynamicRequest?.status === 'ACCEPTED',
+      // true if a request is waiting for approval
+      isPending: dynamicRequest?.status === 'PENDING',
+    };
+  });
+
+  return res.status(200).json(usersWithFollowStatus);
+});
+
  export const updateProfile = catchAsync(async (req, res, next) => {
   try {
     // 1. Grab values from the frontend JSON payload
@@ -37,4 +65,70 @@ import catchAsync from '../utils/catchAsyncError.js';
 
     return res.status(500).json({ error: "An internal server error occurred" });
   }
+});
+
+// POST /user/follow/:id
+export const followUserUser = catchAsync(async (req, res) => {
+  const currentUserId = req.user.userId || req.user.id;
+  const targetUserId = req.params.id;
+
+  if (currentUserId === targetUserId) {
+    return res.status(400).json({ error: "You cannot follow yourself" });
+  }
+
+  // Create connection in your Prisma join schema
+  await userService.followRequest(currentUserId, targetUserId);
+
+  return res.status(200).json({ message: "Successfully followed user" });
+});
+
+// DELETE /user/unfollow/:id
+export const unfollowUserUser = catchAsync(async (req, res) => {
+  const currentUserId = req.user.userId || req.user.id;
+  const targetUserId = req.params.id;
+
+  if (currentUserId === targetUserId) {
+    return res.status(400).json({ error: "You cannot unfollow yourself" });
+  }
+  // Remove connection in your Prisma join schema
+  await userService.deleteFollowRequest(currentUserId, targetUserId);
+
+  return res.status(200).json({ message: "Successfully unfollowed user" });
+});
+
+// GET /user/requests
+export const getPendingRequests = catchAsync(async (req, res, next) => {
+  const currentUserId = req.user?.userId || req.user?.id;
+
+  // Execute database lookup through the service layer
+  const pendingRequests = await userService.findPendingRequests(currentUserId);
+
+  // Fallback to an empty array to prevent client mapping breaks if no records exist
+  return res.status(200).json(pendingRequests || []);
+});
+
+// PATCH /user/requests/accept/:id
+export const acceptFollowRequest = catchAsync(async (req, res, next) => {
+  const requestId = req.params.id;
+
+  // Execute database mutation through the service layer
+  await userService.acceptRequest(requestId);
+
+  return res.status(200).json({ 
+    status: 'success',
+    message: "Follow request accepted successfully." 
+  });
+});
+
+// DELETE /user/requests/reject/:id
+export const rejectFollowRequest = catchAsync(async (req, res, next) => {
+  const requestId = req.params.id;
+
+  // Execute database removal through the service layer
+  await userService.rejectRequest(requestId);
+
+  return res.status(200).json({ 
+    status: 'success',
+    message: "Follow request rejected and removed." 
+  });
 });

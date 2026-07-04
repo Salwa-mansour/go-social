@@ -54,7 +54,7 @@ const  EditProfile =()=> {
 
     // STEP 3: Send text data and the newly acquired Cloudinary URL back to your backend
     try {
-      await axiosPrivate.patch('/user/UpdateProfile', {
+      await axiosPrivate.patch('/user/updateprofile', {
         bio: bio,
         avatarUrl: uploadedImageUrl || undefined // Only update if a new image was generated
       });
