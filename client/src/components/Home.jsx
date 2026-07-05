@@ -4,7 +4,6 @@ import { useAuth } from "../hooks/useAuth";
 
 const Home = () => {
     const { auth } = useAuth();
- console.log("Current Auth State on Home:", auth);
 
     return (
         <section>

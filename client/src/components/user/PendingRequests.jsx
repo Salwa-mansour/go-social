@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import '../../css/list.css';
 
 export default function PendingRequests() {
   const axiosPrivate = useAxiosPrivate();
@@ -57,13 +58,16 @@ export default function PendingRequests() {
         <ul className="requests-list">
           {requests.map((req) => (
             <li key={req.id} className="request-card">
-              <div className="request-user-info">
+              <div className="user-card-info">
+               <figure  className="request-avatar" >
                 <img 
                   src={req.sender.avatarUrl || 'https://placehold.co/50'} 
                   alt={req.sender.name} 
-                  className="request-avatar" 
+                  
                 />
-                <span>@{req.sender.name} wants to follow you</span>
+               </figure>
+               <span>@{req.sender.name} wants to follow you</span>
+             
               </div>
               <div className="request-actions">
                 <button 

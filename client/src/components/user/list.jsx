@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import '../../css/list.css';
+import { Link } from 'react-router-dom';
 
 export default function UsersList() {
   const axiosPrivate = useAxiosPrivate();
@@ -27,7 +29,7 @@ export default function UsersList() {
           // Fallback to response.data.users if your backend wraps it
           const data = response.data.users || response.data;
           setUsers(data);
-          console.log("Fetched users:", data);
+         
         }
       } catch (err) {
         if (err.name !== 'CanceledError' && isMounted) {
@@ -88,54 +90,58 @@ const handleFollowToggle = async (targetUserId, isCurrentlyFollowing) => {
             const isBtnLoading = followLoadingStates[user.id];
             
             return (
-              <li key={user.id} className="user-card">
-                <img 
-                  src={user.avatarUrl || 'https://placehold.co/150'} 
-                  alt={`${user.username}'s avatar`} 
-                  className="user-card-avatar"
-                />
-                <div className="user-card-info">
-                  <h4>@{user.username}</h4>
-                  <p className="user-bio">{user.bio || "No bio written yet."}</p>
-                  
-                <div className="user-card-actions">
-                    <button className="view-profile-btn">View Portfolio</button>
+              <li key={user.id} className="user-item">
+                 <Link to={`/user/${user.id}`} className="user-card-link">
+                    <figure className="user-avatar">
+                      <img 
+                        src={user.avatarUrl || 'https://placehold.co/150'} 
+                        alt={`${user.username}'s avatar`} 
+                        
+                      />
+                    </figure>
                     
-                    {user.isFollowing ? (
-                      /* State 1: Active Follower */
-                      <button 
-                        className="follow-btn following"
-                        onClick={() => handleFollowToggle(user.id, true)}
-                        disabled={followLoadingStates[user.id]}
-                      >
-                        {followLoadingStates[user.id] ? '...' : 'Unfollow'}
-                      </button>
-                    ) : user.isPending ? (
-                      /* State 2: Request is Pending Approval */
-                     <div className="pending-actions-group">
-                          <button className="follow-btn pending" disabled={true}>
-                            Requested
-                          </button>
+                    <div className="user-card-info">
+                      <h4>@{user.username}</h4>
+                      <p className="user-bio">{user.bio || "No bio written yet."}</p>
+                      
+                    <div className="user-card-actions">
+                        
+                        {user.isFollowing ? (
+                          /* State 1: Active Follower */
                           <button 
-                            className="follow-btn undo"
+                            className="follow-btn following"
                             onClick={() => handleFollowToggle(user.id, true)}
                             disabled={followLoadingStates[user.id]}
                           >
-                            {followLoadingStates[user.id] ? '...' : 'Undo'}
+                            {followLoadingStates[user.id] ? '...' : 'Unfollow'}
                           </button>
-                  </div>
-                    ) : (
-                      /* State 3: No Relationship Active */
-                      <button 
-                        className="follow-btn"
-                        onClick={() => handleFollowToggle(user.id, false)}
-                        disabled={followLoadingStates[user.id]}
-                      >
-                        {followLoadingStates[user.id] ? '...' : 'Follow'}
-                      </button>
-                    )}
-                  </div>
-                </div>
+                        ) : user.isPending ? (
+                          /* State 2: Request is Pending Approval */
+                        <div className="pending-actions-group">
+                              <button className="follow-btn pending" disabled={true}>
+                                Requested
+                              </button>
+                              <button 
+                                className="follow-btn undo"
+                                onClick={() => handleFollowToggle(user.id, true)}
+                                disabled={followLoadingStates[user.id]}
+                              >
+                                {followLoadingStates[user.id] ? '...' : 'Undo'}
+                              </button>
+                      </div>
+                        ) : (
+                          /* State 3: No Relationship Active */
+                          <button 
+                            className="follow-btn"
+                            onClick={() => handleFollowToggle(user.id, false)}
+                            disabled={followLoadingStates[user.id]}
+                          >
+                            {followLoadingStates[user.id] ? '...' : 'Follow'}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
               </li>
             );
           })}

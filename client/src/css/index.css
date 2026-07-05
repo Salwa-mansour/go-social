@@ -4,7 +4,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    outline:1px solid red;
 }
+
 
 html {
     font-family: 'Nunito', sans-serif;
@@ -16,14 +18,18 @@ body {
     min-height: 100vh;
     background-color: dodgerblue;
 }
+ul {
+    list-style: none;
+}
 
 .App {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  
   align-items: center;
   min-height: 100vh; 
-  padding: 1rem 0.5rem;
+ width: 100%;
+
 }
 
 section {

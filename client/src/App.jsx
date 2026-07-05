@@ -11,6 +11,7 @@ import Missing from "./components/Missing";
 import EditProfile from './components/user/EditProfile';
 import UsersList from './components/user/list';
 import PendingRequests from './components/user/PendingRequests';
+import UserProfile from './components/user/UserProfile';
 
 
 function App() {
@@ -30,7 +31,8 @@ function App() {
                  <Route path="/" element={<Home />} />
                  <Route path="editProfile" element={<EditProfile/>}/>
                  <Route path="allUsers" element={<UsersList/>} />
-                  <Route path="pendingRequests" element={<PendingRequests/>} />
+                 <Route path="pendingRequests" element={<PendingRequests/>} />
+                 <Route path="user/:userId" element={<UserProfile/>} />
            </Route>
           </Route> 
         {/* Fallbacks & Redirects */}
