@@ -8,7 +8,7 @@ export default function UsersList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   // Track button-specific loading states using user IDs
-  const [followingStates, setFollowingStates] = useState({});
+  const [followLoadingStates, setFollowLoadingStates] = useState({});
 
   useEffect(() => {
     let isMounted = true;
@@ -27,6 +27,7 @@ export default function UsersList() {
           // Fallback to response.data.users if your backend wraps it
           const data = response.data.users || response.data;
           setUsers(data);
+          console.log("Fetched users:", data);
         }
       } catch (err) {
         if (err.name !== 'CanceledError' && isMounted) {
@@ -48,28 +49,28 @@ export default function UsersList() {
 
   // Handle following/unfollowing action logic
 const handleFollowToggle = async (targetUserId, isCurrentlyFollowing) => {
-  setFollowingStates(prev => ({ ...prev, [targetUserId]: true }));
+  setFollowLoadingStates(prev => ({ ...prev, [targetUserId]: true }));
 
   try {
     if (isCurrentlyFollowing) {
+      // Deletes the row completely (Works for both active follow and undoing a request!)
       await axiosPrivate.delete(`/user/unfollow/${targetUserId}`);
+      
       setUsers(prevUsers => 
         prevUsers.map(u => u.id === targetUserId ? { ...u, isFollowing: false, isPending: false } : u)
       );
     } else {
+      // Creates a new PENDING request row
       await axiosPrivate.post(`/user/follow/${targetUserId}`);
-      // Assuming your follow system defaults to instant ACCEPTED:
-      setUsers(prevUsers => 
-        prevUsers.map(u => u.id === targetUserId ? { ...u, isFollowing: true, isPending: false } : u)
-      );
       
-      // NOTE: If you change your system to require approval later, 
-      // change the line above to: isFollowing: false, isPending: true
+      setUsers(prevUsers => 
+        prevUsers.map(u => u.id === targetUserId ? { ...u, isFollowing: false, isPending: true } : u)
+      );
     }
   } catch (err) {
     console.error("Failed to alter follow state:", err);
   } finally {
-    setFollowingStates(prev => ({ ...prev, [targetUserId]: false }));
+    setFollowLoadingStates(prev => ({ ...prev, [targetUserId]: false }));
   }
 };
   if (loading) return <div className="loading">Loading community profiles...</div>;
@@ -84,7 +85,7 @@ const handleFollowToggle = async (targetUserId, isCurrentlyFollowing) => {
       ) : (
         <ul className="users-grid">
           {users.map((user) => {
-            const isBtnLoading = followingStates[user.id];
+            const isBtnLoading = followLoadingStates[user.id];
             
             return (
               <li key={user.id} className="user-card">
@@ -105,26 +106,32 @@ const handleFollowToggle = async (targetUserId, isCurrentlyFollowing) => {
                       <button 
                         className="follow-btn following"
                         onClick={() => handleFollowToggle(user.id, true)}
-                        disabled={followingStates[user.id]}
+                        disabled={followLoadingStates[user.id]}
                       >
-                        {followingStates[user.id] ? '...' : 'Unfollow'}
+                        {followLoadingStates[user.id] ? '...' : 'Unfollow'}
                       </button>
                     ) : user.isPending ? (
                       /* State 2: Request is Pending Approval */
-                      <button 
-                        className="follow-btn pending" 
-                        disabled={true} // Locks the button so they can't resend requests
-                      >
-                        Requested
-                      </button>
+                     <div className="pending-actions-group">
+                          <button className="follow-btn pending" disabled={true}>
+                            Requested
+                          </button>
+                          <button 
+                            className="follow-btn undo"
+                            onClick={() => handleFollowToggle(user.id, true)}
+                            disabled={followLoadingStates[user.id]}
+                          >
+                            {followLoadingStates[user.id] ? '...' : 'Undo'}
+                          </button>
+                  </div>
                     ) : (
                       /* State 3: No Relationship Active */
                       <button 
                         className="follow-btn"
                         onClick={() => handleFollowToggle(user.id, false)}
-                        disabled={followingStates[user.id]}
+                        disabled={followLoadingStates[user.id]}
                       >
-                        {followingStates[user.id] ? '...' : 'Follow'}
+                        {followLoadingStates[user.id] ? '...' : 'Follow'}
                       </button>
                     )}
                   </div>
