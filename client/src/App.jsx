@@ -12,7 +12,8 @@ import EditProfile from './components/user/EditProfile';
 import UsersList from './components/user/list';
 import PendingRequests from './components/user/PendingRequests';
 import UserProfile from './components/user/UserProfile';
-
+import PostDetails from './components/post/Details';
+import EditPost from './components/post/Edit';
 
 function App() {
  
@@ -33,6 +34,8 @@ function App() {
                  <Route path="allUsers" element={<UsersList/>} />
                  <Route path="pendingRequests" element={<PendingRequests/>} />
                  <Route path="user/:userId" element={<UserProfile/>} />
+                 <Route path="post/:postId" element={<PostDetails/>} />
+                 <Route path="post/edit/:postId" element={<EditPost/>} />
            </Route>
           </Route> 
         {/* Fallbacks & Redirects */}

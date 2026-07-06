@@ -90,7 +90,7 @@ const handleFollowToggle = async (targetUserId, isCurrentlyFollowing) => {
             const isBtnLoading = followLoadingStates[user.id];
             
             return (
-              <li key={user.id} className="user-item">
+              <li key={user.id} className="user-card">
                  <Link to={`/user/${user.id}`} className="user-card-link">
                     <figure className="user-avatar">
                       <img 
@@ -103,7 +103,8 @@ const handleFollowToggle = async (targetUserId, isCurrentlyFollowing) => {
                     <div className="user-card-info">
                       <h4>@{user.username}</h4>
                       <p className="user-bio">{user.bio || "No bio written yet."}</p>
-                      
+                    </div>
+                  </Link>
                     <div className="user-card-actions">
                         
                         {user.isFollowing ? (
@@ -140,8 +141,7 @@ const handleFollowToggle = async (targetUserId, isCurrentlyFollowing) => {
                           </button>
                         )}
                       </div>
-                    </div>
-                  </Link>
+                  
               </li>
             );
           })}

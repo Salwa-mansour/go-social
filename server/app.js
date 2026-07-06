@@ -5,7 +5,9 @@ import express from 'express';
 import cookieParser from 'cookie-parser'; // ADDED: To read refresh tokens from cookies
 import cors from 'cors'; // ADDED: To allow your frontend to talk to the API
 import authRouter from './routes/authRouter.js';
-import userRouter from './routes/userRouter.js'
+import userRouter from './routes/userRouter.js';
+import postRouter from './routes/postRouter.js';
+import commentRouter from './routes/commentRouter.js';
 import './config/passport.js';
 const app = express();
 
@@ -29,6 +31,8 @@ app.get("/", (req, res) => {
 });
 app.use("/auth", authRouter);
 app.use("/user",userRouter);
+app.use("/post",postRouter);
+app.use("/comment",commentRouter);
 
 // The Global Error Middleware
 app.use((err, req, res, next) => {

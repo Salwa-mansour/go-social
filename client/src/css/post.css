@@ -1,0 +1,4 @@
+[class*="box"] {
+    outline:1px solid green;
+    display: flex;
+}

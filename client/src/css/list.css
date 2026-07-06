@@ -23,10 +23,10 @@
 [class*="card"] button{
     margin-top:0;
 }
-.user-card-info{
+.user-card-link{
     flex: 1;
 }
-.user-card-actions{
+/* .user-card-actions{
     margin-inline-start: auto;
-}
+} */
 

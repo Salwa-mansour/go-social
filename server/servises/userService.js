@@ -103,3 +103,15 @@ export const rejectRequest = async (requestId) => {
 };
 
 
+export const getFollowedAccounts = async (currentUserId) => { 
+   const followedAccounts = await prisma.followRequest.findMany({
+    where: {
+      senderId: currentUserId,
+      status: 'ACCEPTED',
+    },
+    select: {
+      receiverId: true, // Only pull the string ID, keeping the payload tiny
+    },
+  });
+   return followedAccounts;
+}
