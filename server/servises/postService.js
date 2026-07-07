@@ -90,6 +90,9 @@ export const getPostDetails = async (postId,currentUserId) => {
                 where: {
                     userId: currentUserId // Filters the likes array to only include the logged-in user's like
                 }
+            },
+            _count: {
+              select: { likes: true, comments: true } //  gets totals
             }
         },
     });
@@ -124,3 +127,28 @@ export const deletePost = async (postId, userId) => {
     });
     return post;
 }
+export const likePost = async (userId, postId) => {
+  // Use upsert or create. upsert avoids duplicates if clicked rapidly
+  const like = await prisma.like.create({
+    data: {
+      userId: userId,
+      postId: postId,
+    },
+  });
+  return like;
+};
+
+
+export const unlikePost = async (userId, postId) => {
+  // deleteMany is safer here because if the like doesn't exist, 
+  // it returns { count: 0 } instead of throwing a hard Prisma error crash.
+  const result = await prisma.like.deleteMany({
+    where: {
+      userId: userId,
+      postId: postId,
+    },
+  });
+  
+  // Return true if something was actually deleted, false if there was no like to remove
+  return result.count > 0;
+};

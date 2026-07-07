@@ -2,3 +2,7 @@
     outline:1px solid green;
     display: flex;
 }
+.like-btn:hover {
+  transform: scale(1.1);
+  transition: transform 0.1s ease-in-out;
+}

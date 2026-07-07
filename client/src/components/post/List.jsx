@@ -13,6 +13,27 @@ function PostList({ posts , setPosts }) {
   setPosts(prevPosts => prevPosts.filter(post => post.id !== deletedPostId));
   };
 
+const handleLikeUpdateInState = (postId, willBeLiked) => {
+  setPosts(prevPosts => 
+    prevPosts.map(post => {
+      if (post.id !== postId) return post;
+
+      // Deep clone the post structure to safely update metrics nested inside
+      return {
+        ...post,
+        // Update the mock likes array indicator block
+        likes: willBeLiked ? [{ userId: auth.userId }] : [],
+        // Increment or Decrement the calculated total metrics property
+        _count: {
+          ...post._count,
+          likes: (post._count?.likes || 0) + (willBeLiked ? 1 : -1)
+        }
+      };
+    })
+  );
+};
+
+
   if (!posts || posts.length === 0) {
     return <p>No posts available.</p>;
   }
@@ -56,8 +77,8 @@ function PostList({ posts , setPosts }) {
               </Link>
             </div>
             
-          
-           <PostActions post={post} />
+          <PostActions post={post} onLikeUpdate={handleLikeUpdateInState} />
+
           </li>
         ))}
       </ul>
