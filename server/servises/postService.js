@@ -65,9 +65,14 @@ export const getPostDetails = async (postId) => {
                 },
             },
             comments: {
-                select: {
-                    id: true,
-                    content: true,
+              
+                include: {
+                    author: {
+                        select: {
+                            name: true,
+                            avatarUrl: true,
+                        },
+                    },
                 },
             },
         },

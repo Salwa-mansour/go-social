@@ -12,6 +12,7 @@ export const getPostComments = async (postId) => {
                 select: {
                     id: true,
                     name: true,
+                    avatarUrl:true
                 }
             },
         },
@@ -40,11 +41,24 @@ export const editComment = async (commentId, userId, commentData) => {
     return comment;
 }
 export const deleteComment = async (commentId, userId) => {
-    const comment = await prisma.comment.deleteMany({
-        where: {
-            id: commentId,
-            authorId: userId,
+  const result = await prisma.comment.deleteMany({
+    where: {
+      id: commentId,
+      OR: [
+        {
+          // Condition A: The user is the author of the comment
+          authorId: userId,
         },
-    });
-    return comment;
-}
+        {
+          // Condition B: The user is the author of the main post this comment belongs to
+          post: {
+            authorId: userId,
+          },
+        },
+      ],
+    },
+  });
+  
+  // Returns { count: 1 } if successful, or { count: 0 } if unauthorized/not found
+  return result; 
+};

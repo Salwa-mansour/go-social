@@ -47,16 +47,20 @@ function PostList({ posts , setPosts }) {
             </figure>
             
             <div className="post-body">
-              <p className="post-content">{post.content}</p>
-              <small className="post-date">
-                {new Date(post.createdAt).toLocaleString()}
-              </small>
+              <Link to={`post/${post.id}`}>
+                  <p className="post-content">{post.content}</p>
+                  <small className="post-date">
+                    {new Date(post.createdAt).toLocaleString()}
+                  </small>
+              </Link>
             </div>
             
           
             <div className="post-footer">
               <span>❤️ {post._count?.likes || 0} Likes</span>
-              <span>💬 {post._count?.comments || 0} Comments</span>
+              <Link to={`post/${post.id}`}>
+                 <span>💬 {post._count?.comments || 0} Comments</span>
+              </Link>
             </div>
           </li>
         ))}

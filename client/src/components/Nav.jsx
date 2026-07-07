@@ -7,6 +7,9 @@ const Nav = () => {
     <nav className="navbar">    
        <ul className="nav-links">
         <li>
+          <Link to="/" >feed</Link>
+        </li>
+        <li>
           <Link to="/editprofile">Edit Profile</Link>
         </li>
         <li>

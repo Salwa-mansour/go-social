@@ -36,6 +36,7 @@ export const getPost = catchAsync(async (req, res, next) => {
 
 export const postDetails = catchAsync(async (req, res, next) => {
     const { postId } = req.params;
+
     const post = await postService.getPostDetails(postId);
     return res.status(200).json(post);
 });  

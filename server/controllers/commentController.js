@@ -2,14 +2,14 @@ import * as commentService from "../servises/commentService.js";
 import catchAsync from "../utils/catchAsyncError.js";
 
 export const getCommentsByPostId = catchAsync(async (req, res, next) => {   
-    const postId = req.params.postId;
+    const {postId} = req.params;
     const comments = await commentService.getPostComments(postId);
     return res.status(200).json(comments);
 
 });
  export const createComment = catchAsync(async (req, res, next) => {
     const userId = req.user?.id || req.user?.userId;
-    const postId = req.params.postId;
+    const {postId} = req.params;
     const commentData = {   
         content: req.body.content,
     };
@@ -19,7 +19,7 @@ export const getCommentsByPostId = catchAsync(async (req, res, next) => {
 
 export const editComment = catchAsync(async (req, res, next) => {
     const userId = req.user?.id || req.user?.userId;
-    const commentId = req.params.commentId; 
+    const {commentId} = req.params; 
     const commentData = {
         content: req.body.content,
     };
@@ -32,7 +32,7 @@ export const editComment = catchAsync(async (req, res, next) => {
 
 export const deleteComment = catchAsync(async (req, res, next) => {
     const userId = req.user?.id || req.user?.userId;
-    const commentId = req.params.commentId; 
+    const {commentId} = req.params; 
     const comment = await commentService.deleteComment(commentId, userId);
     if (comment.count === 0) {
         return res.status(404).json({ message: 'Comment not found or you are not authorized to delete this comment.' });
