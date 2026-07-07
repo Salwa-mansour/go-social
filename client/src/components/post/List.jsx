@@ -1,6 +1,7 @@
 import { useAuth } from "../../hooks/useAuth";
 import {Link} from "react-router-dom";
 import DeletePostBtn from "./DeleteBtn";
+import PostActions from "./PostActions";
 import "../../css/post.css";
 
 
@@ -56,12 +57,7 @@ function PostList({ posts , setPosts }) {
             </div>
             
           
-            <div className="post-footer">
-              <span>❤️ {post._count?.likes || 0} Likes</span>
-              <Link to={`post/${post.id}`}>
-                 <span>💬 {post._count?.comments || 0} Comments</span>
-              </Link>
-            </div>
+           <PostActions post={post} />
           </li>
         ))}
       </ul>

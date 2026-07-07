@@ -16,15 +16,15 @@ export const homeFeed= catchAsync(async (req, res, next)=> {
   ];
 
   // 2. Fetch the posts matching those authors
-  const feedPosts = await postService.getHomeFeed(authorsIds);
+  const feedPosts = await postService.getHomeFeed(authorsIds,currentUserId);
 
   return res.status(200).json(feedPosts);
 
 });
 export const userPosts = catchAsync(async (req, res, next)=> {
-    const userId = req.user?.id || req.user?.userId;
-
-    const userPosts = await postService.getUserPosts(userId);
+    const currentUserId = req.user?.id || req.user?.userId;
+    const {authorId} = req.params;
+    const userPosts = await postService.getUserPosts(authorId,currentUserId);
     return res.status(200).json(userPosts);
 });
 
@@ -35,9 +35,10 @@ export const getPost = catchAsync(async (req, res, next) => {
 });
 
 export const postDetails = catchAsync(async (req, res, next) => {
+    const currentUserId = req.user?.id || req.user?.userId;
     const { postId } = req.params;
 
-    const post = await postService.getPostDetails(postId);
+    const post = await postService.getPostDetails(postId,currentUserId);
     return res.status(200).json(post);
 });  
 
@@ -73,4 +74,30 @@ export const deletePost = catchAsync(async (req, res, next) => {
     }
     return res.status(200).json({ message: 'Post deleted successfully.' });
 });
+export const likePost = catchAsync(async (req, res, next) => {
+  const userId = req.user?.id || req.user?.userId;
+  const { postId } = req.params;
 
+  const like = await postService.likePost(userId, postId);
+  
+  if (!like) {
+    return res.status(400).json({ message: "Failed to like post" });
+  }
+  
+ 
+  return res.status(200).json({ message: "Post liked successfully", like });
+});
+
+export const unLikePost = catchAsync(async (req, res, next) => {
+  const userId = req.user?.id || req.user?.userId;
+  const { postId } = req.params;
+
+  const didUnlike = await postService.unlikePost(userId, postId);
+  
+ 
+  if (!didUnlike) {
+    return res.status(404).json({ message: "Like not found or already removed" });
+  }
+  
+  return res.status(200).json({ message: "Post unliked successfully" });
+});

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import CommentForm from '../comment/Form';
 import CommentList from '../comment/List';
+import PostActions from './PostActions';
 
 function PostDetails() {
   const { postId } = useParams();
@@ -76,6 +77,7 @@ function PostDetails() {
         <small>{post.createdAt ? new Date(post.createdAt).toLocaleString() : ""}</small>
         <p>{post.content}</p>
       </section>
+      <PostActions post={post} />
           <CommentForm 
             postId={postId} 
             editData={activeEditComment} 

@@ -1,6 +1,6 @@
 import prisma from '../data/connection.js';
 
-export const getHomeFeed = async (authorsIds) => {
+export const getHomeFeed = async (authorsIds,currentUserId) => {
 
 const feedPosts = await prisma.post.findMany({
     where: {
@@ -15,6 +15,12 @@ const feedPosts = await prisma.post.findMany({
       author: {
         select: { name: true, avatarUrl: true } 
       },
+    likes: {
+        where: {
+            userId: currentUserId // Filters the likes array to only include the logged-in user's like
+        }
+    }
+      ,
       _count: {
         select: { likes: true, comments: true } //  gets totals
       }
@@ -24,10 +30,10 @@ const feedPosts = await prisma.post.findMany({
 
   return feedPosts;
 }
-export const getUserPosts = async (userId) => {
+export const getUserPosts = async (authorId,currentUserId) => {
    const userPosts = await prisma.post.findMany({
         where: {
-            authorId: userId,
+            authorId: authorId,
         },
         orderBy: {
             createdAt: 'desc',
@@ -38,7 +44,12 @@ export const getUserPosts = async (userId) => {
                     id: true,
                     content: true,
                        }
-                      }
+                      },
+            likes:{
+                where: {
+                    userId: currentUserId 
+                }
+            }
                }
     });
 
@@ -52,7 +63,7 @@ export const getPostById = async (postId) => {
     });
     return post;
 }
-export const getPostDetails = async (postId) => {
+export const getPostDetails = async (postId,currentUserId) => {
     const post = await prisma.post.findUnique({
         where: {
             id: postId,
@@ -75,6 +86,11 @@ export const getPostDetails = async (postId) => {
                     },
                 },
             },
+            likes: {
+                where: {
+                    userId: currentUserId // Filters the likes array to only include the logged-in user's like
+                }
+            }
         },
     });
     return post;
