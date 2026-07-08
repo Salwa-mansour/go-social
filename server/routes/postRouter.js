@@ -5,7 +5,7 @@ import * as postController from '../controllers/postController.js';
 const router = Router();
 
 router.get('/feed', authenticateToken, postController.homeFeed);
-router.get('/userposts/:authorId', authenticateToken, postController.userPosts);
+router.get('/authorPosts/:authorId', authenticateToken, postController.authorPosts);
 router.get('/:postId', authenticateToken, postController.getPost);
 router.get('/details/:postId', authenticateToken, postController.postDetails);
 router.post('/create', authenticateToken, postController.createPost);

@@ -59,13 +59,16 @@ const handleLikeUpdateInState = (postId, willBeLiked) => {
             }
        
             <figure className="post-author-info">
-              <img 
-                src={post.author?.avatarUrl || 'https://placehold.co/100'} 
-                alt={`${post.author?.name || 'User'}'s profile`} 
-                width="100" 
-              />
-              
-              <figcaption>@{post.author?.name || 'anonymous'}</figcaption>
+                <Link to={`/profile/${post.author.id}`}>
+             
+                    <img 
+                      src={post.author?.avatarUrl || 'https://placehold.co/100'} 
+                      alt={`${post.author?.name || 'User'}'s profile`} 
+                      width="100" 
+                    />
+                    
+                    <figcaption>@{post.author?.name || 'anonymous'}</figcaption>
+                </Link>
             </figure>
             
             <div className="post-body">

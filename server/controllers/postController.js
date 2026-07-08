@@ -17,20 +17,26 @@ export const homeFeed= catchAsync(async (req, res, next)=> {
 
   // 2. Fetch the posts matching those authors
   const feedPosts = await postService.getHomeFeed(authorsIds,currentUserId);
+   if(!feedPosts){
+    return res.status(404).json({message:"no feed found"});
+   };
 
   return res.status(200).json(feedPosts);
 
 });
-export const userPosts = catchAsync(async (req, res, next)=> {
+export const authorPosts = catchAsync(async (req, res, next)=> {
     const currentUserId = req.user?.id || req.user?.userId;
     const {authorId} = req.params;
-    const userPosts = await postService.getUserPosts(authorId,currentUserId);
-    return res.status(200).json(userPosts);
+    const authorPosts = await postService.getAuthorPosts(authorId,currentUserId);
+    return res.status(200).json(authorPosts);
 });
 
 export const getPost = catchAsync(async (req, res, next) => {
     const { postId } = req.params;
      const post = await postService.getPostById(postId);
+     if(!post){
+      return res.status(404).json({message:"no post found"});
+     }
     return res.status(200).json(post);
 });
 
@@ -39,6 +45,9 @@ export const postDetails = catchAsync(async (req, res, next) => {
     const { postId } = req.params;
 
     const post = await postService.getPostDetails(postId,currentUserId);
+    if(!post){
+      return res.status(404).json({message:"no post found"});
+    }
     return res.status(200).json(post);
 });  
 
@@ -49,6 +58,9 @@ export const createPost = catchAsync(async (req, res, next) => {
     };
     const userId = req.user?.id || req.user?.userId;
     const post = await postService.createPost(userId, postData);
+    if(!post){
+      return res.status(400).json("post creation failed");
+    }
     return res.status(201).json(post);
 });
 

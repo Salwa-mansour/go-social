@@ -1,6 +1,16 @@
 import * as userService from '../servises/userService.js';
 import catchAsync from '../utils/catchAsyncError.js';
 
+export const authorData = catchAsync(async(req,res,nest)=>{
+    const currentUserId = req.user?.id || req.user?.userId;
+    const {authorId} = req.params;
+    const userData = await userService.getAuthorData(authorId,currentUserId);
+    if(!userData){
+      return res.status(404).json({message:"no author data"});
+    }
+    return res.status(200).json(userData);
+});
+
 export const getAllUsers = catchAsync(async (req, res, next) => {
   // 1. Extract the current logged-in user's ID from the JWT payload
   const currentUserId = req.user?.userId || req.user?.id;

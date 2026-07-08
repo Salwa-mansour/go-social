@@ -8,6 +8,7 @@ const router = Router();
 // 1. Signature route for Cloudinary
 router.get('/generate-upload-signature', authenticateToken, generateUploadSignture);
 router.get('/allusers',authenticateToken,userController.getAllUsers)
+router.get('/authordata/:authorId',authenticateToken,userController.authorData)
 
 // 2. Profile update endpoint
 router.patch('/updateprofile', authenticateToken, userController.updateProfile);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams ,Link} from 'react-router-dom';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import CommentForm from '../comment/Form';
 import CommentList from '../comment/List';
@@ -50,6 +50,24 @@ function PostDetails() {
     };
   }, [axiosPrivate, postId]); 
 
+  const handleLikeUpdateInDetails = (postId, willBeLiked) => {
+  setPost((prevPost) => {
+    // Safety guard to make sure we have post data to mutate
+    if (!prevPost || prevPost.id !== postId) return prevPost;
+
+    return {
+      ...prevPost,
+      // 🚀 1. Dynamically add or clear the local user like flag
+      likes: willBeLiked ? [{ userId: "current-user-id" }] : [],
+      // 🚀 2. Increment or decrement the global total likes count nested in _count
+      _count: {
+        ...prevPost._count,
+        likes: (prevPost._count?.likes || 0) + (willBeLiked ? 1 : -1),
+      },
+    };
+  });
+};
+
   if (loadingPost) {
     return <p>Loading details...</p>;
   }
@@ -60,9 +78,9 @@ function PostDetails() {
 
   return (
     <article className="post-detail-view">
-      <header>
+      <header> 
+        <Link to={`/profile/${post.author.id}`}>
         <figure>
-   
           <img 
             src={post.author?.avatarUrl || 'https://placehold.co/100'} 
             alt={post.author?.name || 'User'} 
@@ -70,6 +88,7 @@ function PostDetails() {
           />
           <figcaption>@{post.author?.name || 'anonymous'}</figcaption>
         </figure>
+             </Link>
       </header>
       
       <section className="post-content-area">
@@ -77,7 +96,7 @@ function PostDetails() {
         <small>{post.createdAt ? new Date(post.createdAt).toLocaleString() : ""}</small>
         <p>{post.content}</p>
       </section>
-      <PostActions post={post} />
+      <PostActions post={post} onLikeUpdate={handleLikeUpdateInDetails} />
           <CommentForm 
             postId={postId} 
             editData={activeEditComment} 

@@ -33,7 +33,7 @@ function App() {
                  <Route path="editProfile" element={<EditProfile/>}/>
                  <Route path="allUsers" element={<UsersList/>} />
                  <Route path="pendingRequests" element={<PendingRequests/>} />
-                 <Route path="user/:userId" element={<UserProfile/>} />
+                 <Route path="profile/:userId" element={<UserProfile/>} />
                  <Route path="post/:postId" element={<PostDetails/>} />
                  <Route path="post/edit/:postId" element={<EditPost/>} />
            </Route>

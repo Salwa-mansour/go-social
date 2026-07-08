@@ -6,7 +6,7 @@ function CommentList({ comments,setActiveEditComment,postAuthorId }) {
    const { auth } = useAuth();
 
   // 1. Guard clause if there are no comments yet
-  console.log(comments)
+ 
   if (!comments || comments.length === 0) {
     return (
       <div className="no-comments">

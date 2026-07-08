@@ -1,5 +1,65 @@
 import prisma from '../data/connection.js';
 
+export const getAuthorData = async (authorId, currentUserId) => {
+  const authorData = await prisma.user.findUnique({
+    where: {
+      id: authorId,
+    },
+    select: {
+      id: true,
+      name: true,
+      avatarUrl: true,
+      bio: true,
+      // 🚀 FIX 1: Look at requests RECEIVED by this profile owner
+      receivedRequests: {
+        where: {
+          senderId: currentUserId, // Sent by the logged-in user
+        },
+        select: {
+          status: true, // Assuming your schema tracks 'PENDING' or 'ACCEPTED'
+        }
+      },
+      posts: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+        include: {
+          author: {
+            select: { name: true, avatarUrl: true }
+          },
+          likes: {
+            where: {
+              userId: currentUserId,
+            },
+          },
+          _count: {
+            select: { likes: true, comments: true },
+          },
+        },
+      },
+    },
+  });
+
+  if (!authorData) return { user: null, posts: [] };
+
+  // 🚀 FIX 2: Check the array to dynamically build flags for your FollowButton
+  const activeRelation = authorData.receivedRequests?.[0];
+  
+  // Adjust these strings based on your Prisma Enum (e.g., 'ACCEPTED', 'PENDING')
+  const isFollowing = activeRelation?.status === 'ACCEPTED'; 
+  const isPending = activeRelation?.status === 'PENDING';
+
+  const { posts, receivedRequests, ...userFields } = authorData;
+  
+  // Combine user details with the boolean states your frontend expects
+  const user = {
+    ...userFields,
+    isFollowing,
+    isPending
+  };
+
+  return { user, posts };
+};
 export const updateProfile = async(userId,updateData)=>{
  return   prisma.user.update({
       where: { 

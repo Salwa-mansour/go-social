@@ -13,9 +13,9 @@ const feedPosts = await prisma.post.findMany({
     },
     include: {
       author: {
-        select: { name: true, avatarUrl: true } 
+        select: {id:true, name: true, avatarUrl: true } 
       },
-    likes: {
+       likes: {
         where: {
             userId: currentUserId // Filters the likes array to only include the logged-in user's like
         }
@@ -30,8 +30,8 @@ const feedPosts = await prisma.post.findMany({
 
   return feedPosts;
 }
-export const getUserPosts = async (authorId,currentUserId) => {
-   const userPosts = await prisma.post.findMany({
+export const getAuthorPosts = async (authorId,currentUserId) => {
+   const authorPosts = await prisma.post.findMany({
         where: {
             authorId: authorId,
         },
@@ -53,7 +53,7 @@ export const getUserPosts = async (authorId,currentUserId) => {
                }
     });
 
-    return userPosts;
+    return authorPosts;
 }
 export const getPostById = async (postId) => {
     const post = await prisma.post.findUnique({
@@ -71,6 +71,7 @@ export const getPostDetails = async (postId,currentUserId) => {
         include: {
             author: {
                 select: {
+                    id:true,
                     name: true,
                     avatarUrl: true,
                 },
