@@ -36,14 +36,19 @@ function CreatePost() {
 
 
   return (
-    <div>
-      <h2>Create Post</h2>
+    <div className="popCard" >
+      
       <form onSubmit={handleSubmit}>
         <textarea
           value={postContent}
           onChange={(e)=>setPostContent(e.target.value)} 
+          placeholder="What you think?"
           />
-        <button type="submit" disabled={sendingPost}>{`${sendingPost? "creating ...":"Create"}`}</button>
+        <button type="submit"
+        className="post-button"
+          disabled={sendingPost}>
+          {`${sendingPost? "posting ...":"Post"}`}
+          </button>
         {error && <p style={{color:'red'}}>{error}</p>}
       </form>
     </div>

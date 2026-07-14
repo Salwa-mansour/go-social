@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams ,Link} from 'react-router-dom';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { useAuth } from '../../hooks/useAuth';
 import PostList from "../post/List";
-import FollowButton from './FollowButton'; // 🚀 Imported perfectly
+import FollowButton from './FollowButton'; 
 
 function UserProfile() {
   const { userId } = useParams();
   const axiosPrivate = useAxiosPrivate();
+  const {auth} = useAuth();
   
   const [authorData, setAuthorData] = useState({});
   const [authorPosts, setAuthorPosts] = useState([]); 
@@ -68,7 +70,7 @@ function UserProfile() {
   return (
     <div className="user-profile-page">
       {/* 👤 Profile Header Card Layout */}
-      <header className="profile-header" style={{ padding: "20px", textAlign: "center" }}>
+      <header className="profile-header popCard" style={{ padding: "20px", textAlign: "center" }}>
         <img 
           src={authorData?.avatarUrl || 'https://placehold.co/150'} 
           alt={`${authorData?.name || 'User'}'s avatar`} 
@@ -78,6 +80,12 @@ function UserProfile() {
         <h2>@{authorData?.name || "anonymous"}</h2>
         {authorData?.bio && <p className="profile-bio">{authorData.bio}</p>}
 
+        { authorData.id === auth?.userId && 
+          <div>
+          <Link to="/editprofile" title="Edit Profile">
+               Edit Profile
+          </Link>
+          </div> }
         {/* 🚀 Step 2: Inject the FollowButton right into the profile header header */}
         <div className="profile-relationship-container" style={{ marginTop: "15px" }}>
           <FollowButton 
@@ -87,12 +95,12 @@ function UserProfile() {
         </div>
       </header>
 
-      <hr />
+     
 
       {/* 📝 User's Profile Timeline Feed */}
       <section className="profile-feed">
-        <h3>Posts by @{authorData?.name || "User"}</h3>
-        
+        {/* <h3>Posts by @{authorData?.name || "User"}</h3>
+         */}
         <PostList 
           posts={authorPosts} 
           setPosts={setAuthorPosts} 

@@ -2,6 +2,8 @@ import { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { AuthContext } from "../context/AuthProvider";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket,faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 
 function LogoutBtn() {
@@ -32,8 +34,13 @@ function LogoutBtn() {
     
   return (
   <form onSubmit={handleLogout} className="logout-form">
-    <button type="submit" className="logout-btn" disabled={isLogingOut}>
-      {isLogingOut ? "Logging out..." : "Logout"}
+    <button type="submit" className="logout-btn" disabled={isLogingOut}
+        title={isLogingOut ? "Logging out..." : "Logout"}
+    >
+      {isLogingOut ? 
+        <FontAwesomeIcon icon={faSpinner} />            :
+       <FontAwesomeIcon icon={faRightFromBracket} />
+      }
     </button>
   </form>
   )

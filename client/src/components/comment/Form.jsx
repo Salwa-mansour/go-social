@@ -44,8 +44,6 @@ function CommentForm({ postId, editData = null, onSuccess }) {
           content: comment,
         });
       }
-
-      console.log("Success:", response.data);
       setComment(""); 
       setError("");
 

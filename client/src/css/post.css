@@ -1,8 +1,78 @@
-[class*="box"] {
+/* [class*="box"] {
     outline:1px solid green;
     display: flex;
-}
+} */
 .like-btn:hover {
   transform: scale(1.1);
   transition: transform 0.1s ease-in-out;
+}
+.post-item{
+  position: relative;
+  margin-block:.5rem;
+  padding:.5rem;
+  border: 1px solid rgb(255 255 255 / 26%);
+  border-radius: 3px;
+}
+.post-item a{
+  text-decoration: none;
+}
+.post-actions-box{
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  display: flex ;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset-inline-end: .5rem;
+  inset-block-start: .2rem;
+}
+.post-actions-box > * {
+
+ display: block;
+ margin: 0 .5rem;
+ padding :.25rem;
+ border-radius: 3px;
+ height: 2rem;
+}
+.post-author-info a{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  margin-bottom: .5rem;
+}
+.post-date{
+  font-size: .75rem;
+}
+.posts-container{
+  padding:.75rem;
+}
+/* Subtle, understated Post button */
+.post-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px; /* Fully pill-shaped */
+    padding: 8px 24px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.post-button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Make your input field match the glass aesthetic */
+textarea {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #fff;
+    padding: 12px;
+    transition: border-color 0.2s;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.3);
 }

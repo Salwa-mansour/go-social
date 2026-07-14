@@ -51,9 +51,8 @@ const Home = () => {
     
     return (
         <section>
-            <h1>Home</h1>
-            <br />
-            <p>Welcome {auth?.username || 'Guest'}</p>
+        
+            {/* <p>Welcome {auth?.username || 'Guest'}</p> */}
             <CreatePost />
             
             {loading && <p>Loading posts...</p>}

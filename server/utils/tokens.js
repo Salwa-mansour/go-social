@@ -10,7 +10,8 @@ export const generateAndSendTokens = async (user, res) => {
     jti,
     userId: user.id, 
     email: user.email, 
-    username: user.name // or user.userName depending on your Prisma schema field
+    username: user.name ,
+    avatarUrl: user.avatarUrl
   };
   const refreshToken = jwt.sign(
     tokenPayload,

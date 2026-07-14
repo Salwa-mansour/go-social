@@ -1,37 +1,41 @@
-// config/passport.js
 import passport from 'passport';
+// config/passport.js
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import * as authService from '../servises/authService.js'; // Your Prisma user layer
+import * as authService from '../servises/authService.js';
+import { updateProfile } from '../servises/userService.js';
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/auth/google/login',
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        const email = profile.emails[0].value;
-        
-        // 1. Check if user already exists via email
-        let user = await authService.findByEmail(email);
-        
-        if (!user) {
-          // 2. If they don't exist, register them (omit password since they use Google)
-          user = await authService.createUser({
-            email,
-            userName: profile.displayName || profile.name.givenName,
-            password: null // Your schema should allow nullable passwords for OAuth users!
-          });
-        }
-        
-        return done(null, user);
-      } catch (err) {
-        return done(err, null);
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/google/login",
+    scope: ['profile', 'email'] // 💡 Ensure 'profile' scope is requested!
+  },
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      // 1. Extract the Google Avatar URL safely
+      const googleAvatar = profile.photos?.[0]?.value || profile._json?.picture;
+
+      // 2. Pass it to your database strategy
+      let user = await authService.findByEmail(profile.emails[0].value);
+
+      if (!user) {
+        // If it's a new user, save their Google avatar directly to the DB
+        user = await authService.createUser({
+          userName: profile.displayName,
+          email: profile.emails[0].value,
+          avatarUrl: googleAvatar, // ✅ Store it here
+    
+        });
+      } else if (!user.avatarUrl && googleAvatar) {
+        // Optional: Update an existing local user's empty avatar with their Google photo
+        const updateData = {avatarUrl:googleAvatar};
+        user = await updateProfile(user.id ,updateData); 
       }
-    }
-  )
-);
 
+      return done(null, user);
+    } catch (err) {
+      return done(err, null);
+    }
+  }
+));
 export default passport;

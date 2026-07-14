@@ -1,13 +1,25 @@
 import { Outlet } from "react-router-dom";
-import Nave from "./Nav";
+import Nav from "./Nav";
+
+
+const style = {
+    appCss: {
+       
+        backgroundImage: " url('/juliette-paez-tobar.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "30% center",
+        backgroundAttachment: "fixed",
+    }
+};
 
 const Layout = () => {
     return (
-        <main className="App">
-            <Nave />
+        // 3. Reference it using style={style.appCss}
+        <main className="App" style={style.appCss}>
+            <Nav />
             <Outlet />
         </main>
-    )
-}
+    );
+};
 
-export default Layout
+export default Layout;

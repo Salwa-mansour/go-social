@@ -32,18 +32,14 @@ export const registerUser = catchAsync(async (req, res, next) => {
   return res.status(201).json({
     message: "User created and logged in",
     accessToken,
-    user: { userId: user.id, username: user.name, email: user.email }
+    user: { userId: user.id, username: user.name, email: user.email ,avatarUrl:user.avatarUrl}
   });
 });
 // POST /login
 export const loginUser = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
-// if (!password) {
-//   const err = new Error("This account uses Google Sign-In. Please log in with Google.");
-//   err.statusCode = 401;
-//   throw err;
-// }
+
   if (!email || !password) {
     const err = new Error("Email and password are required");
     err.statusCode = 400;
@@ -78,7 +74,8 @@ export const loginUser = catchAsync(async (req, res, next) => {
     user: { 
       userId: user.id,
       username: user.name,
-      email: user.email
+      email: user.email,
+      avatarUrl: user.avatarUrl
     } 
     
   });
@@ -123,7 +120,8 @@ export const refreshToken = catchAsync(async (req, res, next) => {
       jti: nextJti,
       userId: decoded.userId,
       email: decoded.email,
-      username: decoded.username
+      username: decoded.username,
+      avatarUrl:decoded.avatarUrl
   };
 
   const newRefreshToken = jwt.sign(

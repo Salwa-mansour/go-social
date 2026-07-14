@@ -2,6 +2,8 @@ import { useAuth } from "../../hooks/useAuth";
 import {Link} from "react-router-dom";
 import DeletePostBtn from "./DeleteBtn";
 import PostActions from "./PostActions";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit} from "@fortawesome/free-solid-svg-icons";
 import "../../css/post.css";
 
 
@@ -39,17 +41,17 @@ const handleLikeUpdateInState = (postId, willBeLiked) => {
   }
 
   return (
-    <div className="posts-container">
+    <div className="posts-container  glass-container">
       <ul className="posts-list">
         {posts.map((post) => (
          
-          <li key={post.id} className="post-container">
+          <li key={post.id} className="post-item glass-container">
             {
             auth?.userId === post.authorId && (
               <div className="post-actions-box">
                
-                <Link to={`/post/edit/${post.id}`} className="action-btn edit-btn">
-                  Edit
+                <Link to={`/post/edit/${post.id}`} className="action-btn edit-btn" title="edit post">
+                    <FontAwesomeIcon icon={faEdit} />
                 </Link>
                 
                 <DeletePostBtn postId={post.id} onDeleteSuccess={handleDeleteFromState} />
@@ -60,12 +62,14 @@ const handleLikeUpdateInState = (postId, willBeLiked) => {
        
             <figure className="post-author-info">
                 <Link to={`/profile/${post.author.id}`}>
-             
-                    <img 
+                    <div className="image">
+                      <img 
                       src={post.author?.avatarUrl || 'https://placehold.co/100'} 
                       alt={`${post.author?.name || 'User'}'s profile`} 
                       width="100" 
                     />
+                    </div>
+                 
                     
                     <figcaption>@{post.author?.name || 'anonymous'}</figcaption>
                 </Link>
