@@ -1,5 +1,7 @@
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash ,faSpinner} from "@fortawesome/free-solid-svg-icons";
 
 function DeleteCommentBtn({ commentId }) {
   const axiosPrivate = useAxiosPrivate();
@@ -28,11 +30,14 @@ function DeleteCommentBtn({ commentId }) {
 
   return (
     <button 
-      className="action-btn delete-btn"
+      className="btn"
       onClick={handleDelete}
       disabled={isDeleting}
+      title={isDeleting ? "Deleting..." : "Delete"}
     >
-      {isDeleting ? "Deleting..." : "Delete"}
+      {isDeleting ? 
+      <FontAwesomeIcon icon={faSpinner} />
+       : <FontAwesomeIcon icon={faTrash} />}
     </button>
   );
 }

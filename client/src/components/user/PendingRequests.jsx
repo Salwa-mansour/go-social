@@ -51,24 +51,30 @@ export default function PendingRequests() {
   if (error) return <div className="error-message">{error}</div>;
 
   return (
-    <div className="requests-container">
-      <h3>Follow Requests ({requests.length})</h3>
+    <div className="main-content">
+      <div className="top-container">
+         <h3>Follow Requests ({requests.length})</h3>
+      </div>
+     
       {requests.length === 0 ? (
         <p>No pending follow requests.</p>
       ) : (
-        <ul className="requests-list">
+        <ul className=" glass-container requests-list">
           {requests.map((req) => (
-            <li key={req.id} className="request-card">
+            <li key={req.id} className="request-item">
       
-              <Link to={`/user/${req.sender.id}`} className="user-card-link">
-                  <figure  className="request-avatar" >
-                    <img 
-                      src={req.sender.avatarUrl || 'https://placehold.co/50'} 
-                      alt={req.sender.name} 
-                      
-                    />
+              <Link to={`/profile/${req.sender.id}`} >
+                  <figure  className="user-avatar" >
+                      <div className="image">
+                          <img 
+                            src={req.sender.avatarUrl || 'https://placehold.co/50'} 
+                            alt={req.sender.name} 
+                            
+                          />
+                      </div>
+                     <figcaption><strong>@{req.sender.name}</strong>   wants to follow you</figcaption>
                   </figure>
-                  <span>@{req.sender.name} wants to follow you</span>
+                 
              </Link>
               
               <div className="request-actions">

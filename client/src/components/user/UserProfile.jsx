@@ -68,16 +68,20 @@ function UserProfile() {
   }
 
   return (
-    <div className="user-profile-page">
+    <>
       {/* 👤 Profile Header Card Layout */}
-      <header className="profile-header popCard" style={{ padding: "20px", textAlign: "center" }}>
-        <img 
-          src={authorData?.avatarUrl || 'https://placehold.co/150'} 
-          alt={`${authorData?.name || 'User'}'s avatar`} 
-          width="150"
-          style={{ borderRadius: "50%", marginBottom: "10px" }}
-        />
-        <h2>@{authorData?.name || "anonymous"}</h2>
+      <header className="top-container" style={{  textAlign: "center" }}>
+        <figure>
+          <div className="profile-image" >
+            <img 
+              src={authorData?.avatarUrl || 'https://placehold.co/150'} 
+              alt={`${authorData?.name || 'User'}'s avatar`} 
+              width="150"
+              style={{ borderRadius: "50%", marginBottom: "10px" }}
+            />
+          </div>  
+        <figcaption>@{authorData?.name || "anonymous"}</figcaption>
+       </figure>
         {authorData?.bio && <p className="profile-bio">{authorData.bio}</p>}
 
         { authorData.id === auth?.userId && 
@@ -98,7 +102,7 @@ function UserProfile() {
      
 
       {/* 📝 User's Profile Timeline Feed */}
-      <section className="profile-feed">
+      <section className="main-content">
         {/* <h3>Posts by @{authorData?.name || "User"}</h3>
          */}
         <PostList 
@@ -106,7 +110,7 @@ function UserProfile() {
           setPosts={setAuthorPosts} 
         />
       </section>
-    </div>
+    </>
   );
 }
 

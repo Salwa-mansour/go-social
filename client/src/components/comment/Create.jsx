@@ -45,8 +45,13 @@ function CreateComment({ postId }) {
           onChange={(e) => setComment(e.target.value)}
           placeholder="Write a comment..."
         />
-        <button type="submit" disabled={sending}>
+        <button type="submit"
+          className="btn"
+         disabled={sending} 
+       
+         >
           {sending ? "Posting..." : "Comment"}
+          
         </button>
         {error && <p style={{ color: "red" }}>{error}</p>}
       </form>

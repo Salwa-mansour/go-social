@@ -36,7 +36,7 @@ function CreatePost() {
 
 
   return (
-    <div className="popCard" >
+    <div className="top-container" >
       
       <form onSubmit={handleSubmit}>
         <textarea
@@ -45,7 +45,7 @@ function CreatePost() {
           placeholder="What you think?"
           />
         <button type="submit"
-        className="post-button"
+        className="button"
           disabled={sendingPost}>
           {`${sendingPost? "posting ...":"Post"}`}
           </button>

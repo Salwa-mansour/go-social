@@ -50,7 +50,7 @@ const Home = () => {
     }, [axiosPrivate]); 
     
     return (
-        <section>
+        <section className="main-content">
         
             {/* <p>Welcome {auth?.username || 'Guest'}</p> */}
             <CreatePost />

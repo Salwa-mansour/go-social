@@ -56,30 +56,35 @@ export default function UsersList() {
   if (error) return <div className="error-message">{error}</div>;
 
   return (
-    <div className="users-container">
-      <h2>Discover Creators</h2>
-      
+    <div className="main-content">
+      <div className="top-container">
+            <h2 style={{textAlign:'center'}}>Discover Creators</h2>
+      </div>
+    
       {users.length === 0 ? (
         <p>No other users found yet.</p>
       ) : (
-        <ul className="users-grid">
+        <ul className="glass-container users-list" >
           {users.map((user) => (
-            <li key={user.id} className="user-card">
-              <Link to={`/profile/${user.id}`} className="user-card-link">
+            <li key={user.id} className="user-item">
+
+              
+              <Link to={`/profile/${user.id}`} className="user-link">
                 <figure className="user-avatar">
-                  <img 
+                  <div className='image'>
+                     <img 
                     src={user.avatarUrl || 'https://placehold.co/150'} 
                     alt={`${user.username}'s avatar`} 
-                  />
+                    />
+                  </div>
+                 
+                  <figcaption>@{user.username}</figcaption>
                 </figure>
                 
-                <div className="user-card-info">
-                  <h4>@{user.username}</h4>
-                  <p className="user-bio">{user.bio || "No bio written yet."}</p>
-                </div>
+          
               </Link>
 
-              {/* 🚀 Render the new actions row here */}
+        
               <FollowButton 
                 user={user} 
                 onStateUpdate={handleUserFieldsUpdate} 

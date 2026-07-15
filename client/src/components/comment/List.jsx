@@ -1,6 +1,7 @@
 import { useAuth } from "../../hooks/useAuth";
 import DeleteCommentBtn from "./DeleteBtn";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit} from "@fortawesome/free-solid-svg-icons";
 
 function CommentList({ comments,setActiveEditComment,postAuthorId }) {
    const { auth } = useAuth();
@@ -44,10 +45,15 @@ function CommentList({ comments,setActiveEditComment,postAuthorId }) {
                 </small>
               )}
            
-              <div className="comment-actions-box">
+              <div className="comment-action-box">
             
                 {auth?.userId === comment.authorId && (
-                  <button onClick={() => setActiveEditComment(comment)}>Edit</button>
+                  <button 
+                      className="btn"
+                      onClick={() => setActiveEditComment(comment)} 
+                      title="Edit comment" >
+                      <FontAwesomeIcon icon={faEdit} />
+                  </button>
                 )}
 
               

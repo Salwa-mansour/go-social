@@ -4,6 +4,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import CommentForm from '../comment/Form';
 import CommentList from '../comment/List';
 import PostActions from './PostActions';
+import "../../css/post.css";
 
 function PostDetails() {
   const { postId } = useParams();
@@ -77,38 +78,42 @@ function PostDetails() {
   }
 
   return (
-    <article className="post-detail-view">
-      <header> 
-        <Link to={`/profile/${post.author.id}`}>
-        <figure>
-          <img 
-            src={post.author?.avatarUrl || 'https://placehold.co/100'} 
-            alt={post.author?.name || 'User'} 
-            width="100" 
-          />
-          <figcaption>@{post.author?.name || 'anonymous'}</figcaption>
-        </figure>
-             </Link>
-      </header>
-      
-      <section className="post-content-area">
-     
-        <small>{post.createdAt ? new Date(post.createdAt).toLocaleString() : ""}</small>
-        <p>{post.content}</p>
-      </section>
-      <PostActions post={post} onLikeUpdate={handleLikeUpdateInDetails} />
-          <CommentForm 
-            postId={postId} 
-            editData={activeEditComment} 
-            onSuccess={(updatedComment) => {
-              
-              setActiveEditComment(null); 
-            }} 
-          />
-      <CommentList  comments={post.comments || []}
-       setActiveEditComment={setActiveEditComment}
-       postAuthorId={post.authorId} />
-    </article>
+    <div  className="main-content  glass-container top-container">
+        <article className="post-detail" >
+          <header> 
+            <Link to={`/profile/${post.author.id}`}>
+            <figure>
+              <div className="image">
+                  <img 
+                    src={post.author?.avatarUrl || 'https://placehold.co/100'} 
+                    alt={post.author?.name || 'User'} 
+                    width="100" 
+                  />
+              </div>  
+              <figcaption>@{post.author?.name || 'anonymous'}</figcaption>
+            </figure>
+                </Link>
+          </header>
+          
+          <section className="post-content-area">
+        
+            <small>{post.createdAt ? new Date(post.createdAt).toLocaleString() : ""}</small>
+            <p>{post.content}</p>
+          </section>
+          <PostActions post={post} onLikeUpdate={handleLikeUpdateInDetails} />
+              <CommentForm 
+                postId={postId} 
+                editData={activeEditComment} 
+                onSuccess={(updatedComment) => {
+                  
+                  setActiveEditComment(null); 
+                }} 
+              />
+          <CommentList  comments={post.comments || []}
+          setActiveEditComment={setActiveEditComment}
+          postAuthorId={post.authorId} />
+        </article> 
+     </div>
   );
 }
 

@@ -24,7 +24,7 @@ const styles = {
 
 function ProFileLink() {
   const { auth } = useAuth();
-  console.log(auth)
+ 
   return (
     // 2. Pass the object directly to the style attribute
     <Link to={`/profile/${auth?.userId}`} style={styles.profileLink} title="Your Profile">      

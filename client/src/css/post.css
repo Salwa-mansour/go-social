@@ -7,16 +7,24 @@
   transition: transform 0.1s ease-in-out;
 }
 .post-item{
+  border: 1px solid rgb(255 255 255 / 26%);
+  border-radius: 3px;
+}
+.comment-header{
+  display: contents;
+}
+.post-item,
+.comment-item{
   position: relative;
   margin-block:.5rem;
   padding:.5rem;
-  border: 1px solid rgb(255 255 255 / 26%);
-  border-radius: 3px;
+  
 }
 .post-item a{
   text-decoration: none;
 }
-.post-actions-box{
+.post-actions-box,
+.comment-action-box{
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 3px;
   display: flex ;
@@ -26,8 +34,8 @@
   inset-inline-end: .5rem;
   inset-block-start: .2rem;
 }
-.post-actions-box > * {
-
+.post-actions-box > * ,
+.comment-actions-box > * {
  display: block;
  margin: 0 .5rem;
  padding :.25rem;
@@ -46,33 +54,17 @@
 }
 .posts-container{
   padding:.75rem;
-}
-/* Subtle, understated Post button */
-.post-button {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50px; /* Fully pill-shaped */
-    padding: 8px 24px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  margin-bottom: 1rem;
 }
 
-.post-button:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+.post-detail{
+  padding: 1rem;
+ 
 }
-
-/* Make your input field match the glass aesthetic */
-textarea {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    color: #fff;
-    padding: 12px;
-    transition: border-color 0.2s;
+.post-content-area{
+  padding-block: .5rem;
 }
-
-textarea:focus {
-    outline: none;
-    border-color: rgba(255, 255, 255, 0.3);
+.comments-section{
+  padding-inline: 1rem;
+  margin-block: 1rem;
 }

@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import OAuthCallback from './components/OAuthCallback';
@@ -14,37 +13,39 @@ import PendingRequests from './components/user/PendingRequests';
 import UserProfile from './components/user/UserProfile';
 import PostDetails from './components/post/Details';
 import EditPost from './components/post/Edit';
+import FormLayout from './components/FormLayout'; // 💡 Fixed spelling
 
 function App() {
- 
   return (
-    
     <Routes>
-       <Route path="login" element={<Login />} />
-       <Route path="register" element={<Register />} />
-       <Route path="/oauth-callback" element={<OAuthCallback />} />
-            
-       <Route path="/" element={<Layout />}>
-         
-         {/* Protected Application Routes */}
-          <Route element={<PersistLogin />}>
-           <Route element={<RequireAuth />}> 
-                 <Route path="/" element={<Home />} />
-                 <Route path="editProfile" element={<EditProfile/>}/>
-                 <Route path="allUsers" element={<UsersList/>} />
-                 <Route path="pendingRequests" element={<PendingRequests/>} />
-                 <Route path="profile/:userId" element={<UserProfile/>} />
-                 <Route path="post/:postId" element={<PostDetails/>} />
-                 <Route path="post/edit/:postId" element={<EditPost/>} />
-           </Route>
-          </Route> 
-        {/* Fallbacks & Redirects */}
-       
-         <Route path="*" element={<Missing/>} />
-       </Route>
-    </Routes>
+      {/* 1. Auth & Public Forms Layout */}
+      <Route element={<FormLayout />}>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="oauth-callback" element={<OAuthCallback />} /> {/* 💡 Removed leading slash */}
+      </Route>
 
-  )
+      {/* 2. Main App Layout */}
+      <Route path="/" element={<Layout />}>
+        
+        {/* Protected Application Routes */}
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth />}> 
+            <Route index element={<Home />} /> {/* 💡 Used 'index' for the base / path */}
+            <Route path="editProfile" element={<EditProfile/>}/>
+            <Route path="allUsers" element={<UsersList/>} />
+            <Route path="pendingRequests" element={<PendingRequests/>} />
+            <Route path="profile/:userId" element={<UserProfile/>} />
+            <Route path="post/:postId" element={<PostDetails/>} />
+            <Route path="post/edit/:postId" element={<EditPost/>} />
+          </Route>
+        </Route> 
+
+        {/* Fallbacks & Redirects */}
+        <Route path="*" element={<Missing/>} />
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;

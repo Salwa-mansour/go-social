@@ -256,7 +256,9 @@ const Register = () => {
                      checked={persist} />
                      <label htmlFor="persist">trust this devise</label>
                     </div>
-                        <button disabled={!validName || !validEmail || !validPassword || !validMatch || isLoading ? true : false}>
+                        <button
+                            className="button"
+                            disabled={!validName || !validEmail || !validPassword || !validMatch || isLoading ? true : false}>
                             {isLoading ? "Signing Up..." : "Sign Up"}
                         </button>
                     </form>
