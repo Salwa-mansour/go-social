@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash ,faSpinner} from "@fortawesome/free-solid-svg-icons";
 
-function DeleteCommentBtn({ commentId }) {
+function DeleteCommentBtn({ commentId,onCommentDelete }) {
   const axiosPrivate = useAxiosPrivate();
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -16,10 +16,10 @@ function DeleteCommentBtn({ commentId }) {
      
       await axiosPrivate.delete(`/comment/${commentId}`);
       
-      // 🚀 Tell the parent component to instantly remove this comment from the array state
-    //   if (onDeleteSuccess) {
-    //     onDeleteSuccess(commentId);
-    //   }
+      //  Tell the parent component to instantly remove this comment from the array state
+      if (onCommentDelete) {
+        onCommentDelete(commentId);
+      }
     } catch (err) {
       console.error("Failed to delete comment:", err);
       alert("Could not delete comment. Please try again.");

@@ -3,11 +3,13 @@ import DeleteCommentBtn from "./DeleteBtn";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit} from "@fortawesome/free-solid-svg-icons";
 
-function CommentList({ comments,setActiveEditComment,postAuthorId }) {
+function CommentList({ comments,setComments,setActiveEditComment,postAuthorId }) {
    const { auth } = useAuth();
 
   // 1. Guard clause if there are no comments yet
- 
+ const handleCommentDelete =(commentId)=>{
+    setComments(comments.filter(comment=>comment.id !== commentId))
+ }
   if (!comments || comments.length === 0) {
     return (
       <div className="no-comments">
@@ -58,7 +60,10 @@ function CommentList({ comments,setActiveEditComment,postAuthorId }) {
 
               
                 {(auth?.userId === comment.authorId || auth?.userId === postAuthorId) && (
-                  <DeleteCommentBtn commentId={comment.id}  /> 
+                  <DeleteCommentBtn 
+                  commentId={comment.id}
+                  onCommentDelete ={handleCommentDelete}
+                    /> 
                   /* Or use your component once it's ready:
                   <DeleteCommentBtn commentId={comment.id} onDeleteSuccess={handleDeleteFromState} /> 
                   */

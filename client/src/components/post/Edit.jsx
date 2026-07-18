@@ -57,7 +57,7 @@ useEffect(() => {
       console.log(response.data);
       setPostContent("");
       setError("");
-       navigate(`/`); 
+       navigate(-1); 
     }
     catch(err){
       console.error(err);

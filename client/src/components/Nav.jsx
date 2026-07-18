@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus,faUserPen,faBell ,faHouse} from "@fortawesome/free-solid-svg-icons";
 import "../css/nav.css";
 
-const Nav = () => {
+const Nav = ({requestCount}) => {
   return (
     <nav className="navbar glass-container">    
        <ul className="nav-links">
@@ -26,6 +26,7 @@ const Nav = () => {
         </li>
         <li>
           <Link to="/pendingRequests" title="Requests">
+            <span>{requestCount}</span>
                 <FontAwesomeIcon icon={faBell} />
           </Link>
         </li>

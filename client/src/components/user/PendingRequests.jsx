@@ -1,32 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useOutletContext, Link } from 'react-router-dom'; // 💡 Import useOutletContext instead
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import { Link } from 'react-router-dom';
 import '../../css/list.css';
 
 export default function PendingRequests() {
   const axiosPrivate = useAxiosPrivate();
-  const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [actionLoading, setActionLoading] = useState({}); // Tracks loading per button
-
-  useEffect(() => {
-    let isMounted = true;
-    const fetchRequests = async () => {
-      try {
-        setLoading(true);
-        const response = await axiosPrivate.get('/user/requests');
-        if (isMounted) setRequests(response.data);
-      } catch (err) {
-        if (isMounted) setError("Failed to load follow requests.");
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-
-    fetchRequests();
-    return () => { isMounted = false; };
-  }, [axiosPrivate]);
+  
+  // 💡 Pull layout data down seamlessly here
+  const { requests, setRequests } = useOutletContext();
+  
+  const [actionLoading, setActionLoading] = useState({}); 
 
   const handleAction = async (requestId, action) => {
     setActionLoading(prev => ({ ...prev, [requestId]: true }));
@@ -37,7 +20,7 @@ export default function PendingRequests() {
         await axiosPrivate.delete(`/user/requests/reject/${requestId}`);
       }
       
-      // Filter out the request locally so it disappears from the UI immediately
+      // 💡 This updates the Layout state, instantly dropping the count in the Nav bar!
       setRequests(prev => prev.filter(req => req.id !== requestId));
     } catch (err) {
       console.error(`Failed to ${action} request:`, err);
@@ -47,9 +30,7 @@ export default function PendingRequests() {
     }
   };
 
-  if (loading) return <div>Loading requests...</div>;
-  if (error) return <div className="error-message">{error}</div>;
-
+  // Note: layout handles initial fetching states, so we don't need "loading" or "error" flags here.
   return (
     <div className="main-content">
       <div className="top-container">
@@ -63,18 +44,16 @@ export default function PendingRequests() {
           {requests.map((req) => (
             <li key={req.id} className="request-item">
       
-              <Link to={`/profile/${req.sender.id}`} >
-                  <figure  className="user-avatar" >
+              <Link to={`/profile/${req.sender?.id}`} >
+                  <figure className="user-avatar" >
                       <div className="image">
                           <img 
-                            src={req.sender.avatarUrl || 'https://placehold.co/50'} 
-                            alt={req.sender.name} 
-                            
+                            src={req.sender?.avatarUrl || 'https://placehold.co/50'} 
+                            alt={req.sender?.name || 'User'} 
                           />
                       </div>
-                     <figcaption><strong>@{req.sender.name}</strong>   wants to follow you</figcaption>
+                     <figcaption><strong>@{req.sender?.name || 'User'}</strong> wants to follow you</figcaption>
                   </figure>
-                 
              </Link>
               
               <div className="request-actions">

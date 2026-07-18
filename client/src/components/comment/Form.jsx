@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 
-function CommentForm({ postId, editData = null, onSuccess }) {
+function CommentForm({ postId, editData = null,onCommentsChange ,onSuccess }) {
   const [comment, setComment] = useState("");
   const axiosPrivate = useAxiosPrivate();
   const [error, setError] = useState("");
@@ -47,7 +47,7 @@ function CommentForm({ postId, editData = null, onSuccess }) {
       setComment(""); 
       setError("");
 
-   
+      onCommentsChange(response.data);
       if (onSuccess) {
         onSuccess(response.data);
       }

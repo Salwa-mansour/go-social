@@ -1,5 +1,6 @@
 import { useAuth } from "../../hooks/useAuth";
 import {Link} from "react-router-dom";
+import CreatePost from "./Create";
 import DeletePostBtn from "./DeleteBtn";
 import PostActions from "./PostActions";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,9 +9,22 @@ import "../../css/post.css";
 
 
 
-function PostList({ posts , setPosts }) {
+function PostList({ posts , setPosts,pageOwnerId = 0 }) {
   const { auth } = useAuth();
 
+const handlePostCreate = (post) => {
+  // If the backend response lacks the populated author relational data, supply a fallback
+  const completePostData = {
+    ...post,
+    author: post.author || {
+      id: post.authorId || auth?.userId,
+      name: auth?.username ,
+      avatarUrl: auth?.avatarUrl || 'https://placehold.co/100'
+    }
+  };
+
+  setPosts(prevPosts => [completePostData,...prevPosts]);
+};
   const handleDeleteFromState = (deletedPostId) => {
   setPosts(prevPosts => prevPosts.filter(post => post.id !== deletedPostId));
   };
@@ -41,6 +55,18 @@ const handleLikeUpdateInState = (postId, willBeLiked) => {
   }
 
   return (
+    <>
+    
+      {
+        
+          (pageOwnerId === auth.userId || pageOwnerId === 0) && (
+          <CreatePost onPostCreate={handlePostCreate} />
+          )
+      }
+   
+    
+   
+
     <div className="posts-container  glass-container">
       <ul className="posts-list">
         {posts.map((post) => (
@@ -90,6 +116,7 @@ const handleLikeUpdateInState = (postId, willBeLiked) => {
         ))}
       </ul>
     </div>
+    </>
   );
 }
 

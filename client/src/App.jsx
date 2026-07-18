@@ -22,16 +22,16 @@ function App() {
       <Route element={<FormLayout />}>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route path="oauth-callback" element={<OAuthCallback />} /> {/* 💡 Removed leading slash */}
+        <Route path="oauth-callback" element={<OAuthCallback />} />
       </Route>
 
-      {/* 2. Main App Layout */}
-      <Route path="/" element={<Layout />}>
-        
-        {/* Protected Application Routes */}
-        <Route element={<PersistLogin />}>
-          <Route element={<RequireAuth />}> 
-            <Route index element={<Home />} /> {/* 💡 Used 'index' for the base / path */}
+      {/* 2. Global Auth Wrapper State Layers */}
+      <Route element={<PersistLogin />}>
+        <Route element={<RequireAuth />}> 
+          
+          {/* 💡 NOW INSIDE: Main App Shell Layout mounts only after auth passes */}
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
             <Route path="editProfile" element={<EditProfile/>}/>
             <Route path="allUsers" element={<UsersList/>} />
             <Route path="pendingRequests" element={<PendingRequests/>} />
@@ -39,13 +39,13 @@ function App() {
             <Route path="post/:postId" element={<PostDetails/>} />
             <Route path="post/edit/:postId" element={<EditPost/>} />
           </Route>
-        </Route> 
 
-        {/* Fallbacks & Redirects */}
-        <Route path="*" element={<Missing/>} />
-      </Route>
+        </Route>
+      </Route> 
+
+      {/* Fallbacks & Redirects */}
+      <Route path="*" element={<Missing/>} />
     </Routes>
   );
 }
-
 export default App;

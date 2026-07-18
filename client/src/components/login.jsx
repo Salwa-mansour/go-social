@@ -82,6 +82,7 @@ const handleSubmit = async (e) => {
 
 // 3. Refactor your Guest button to bypass state entirely
 const handleGuestLogin = async () => {
+    setPersist("true"); 
   // Directly trigger login with your hardcoded credentials
   await loginUser("gestuser@gmail.com", "gestUser@123"); 
 };

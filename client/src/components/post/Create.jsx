@@ -2,7 +2,7 @@ import  useAxiosPrivate  from "../../hooks/useAxiosPrivate";
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function CreatePost() {
+function CreatePost({onPostCreate}) {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [postContent,setPostContent]=useState("");
@@ -21,6 +21,7 @@ function CreatePost() {
     try{
       const response = await axiosPrivate.post('/post/create',{content:postContent});
       console.log(response.data);
+      onPostCreate(response.data)
       setPostContent("");
       setError("");
       // navigate("/");

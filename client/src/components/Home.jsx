@@ -1,5 +1,5 @@
 import { useAuth } from "../hooks/useAuth";
-import CreatePost from "./post/Create";
+
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import PostList from "./post/List";
 import { useState, useEffect } from "react";
@@ -53,7 +53,7 @@ const Home = () => {
         <section className="main-content">
         
             {/* <p>Welcome {auth?.username || 'Guest'}</p> */}
-            <CreatePost />
+      
             
             {loading && <p>Loading posts...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}

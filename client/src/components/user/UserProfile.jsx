@@ -108,6 +108,7 @@ function UserProfile() {
         <PostList 
           posts={authorPosts} 
           setPosts={setAuthorPosts} 
+          pageOwnerId={userId}
         />
       </section>
     </>
