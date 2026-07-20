@@ -11,7 +11,9 @@ import { signupValidation, signInValidation, handleValidationErrors } from '../m
 
 
 const router = Router();
-
+const clientUrl = process.env.NODE_ENV === 'production'
+                    ? [process.env.PRODUCTION_CLIENT] // <-- Replace with your live frontend URL
+                    : [process.env.DEVELOPMENT_CLIENT]; // Local development URL
 // POST request to handle registration data submissions
 router.post('/register',signupValidation, handleValidationErrors, registerUser);
 router.post('/login', signInValidation, handleValidationErrors,loginUser);
@@ -23,7 +25,7 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 // 2. Google redirects back here after user signs in successfully
 router.get(
   '/google/login',
-  passport.authenticate('google', { session: false, failureRedirect: 'http://localhost:5173/login' }),googleAuth);
+  passport.authenticate('google', { session: false, failureRedirect: `${clientUrl}/login` }),googleAuth);
 
 
 export default router;
