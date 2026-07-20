@@ -13,9 +13,6 @@ const app = express();
 
 
 const allowedOrigins = process.env.NODE_ENV === 'production'
-                        ? [process.env.PRODUCTION_CLIENT] // <-- Replace with your live frontend URL
-                        : [process.env.DEVELOPMENT_CLIENT]; // Local development URL
-const allowedOrigins = process.env.NODE_ENV === 'production'
     ? [process.env.PRODUCTION_CLEINT]
     : [process.env.DEVELOPMENT_CLEINT];
 
