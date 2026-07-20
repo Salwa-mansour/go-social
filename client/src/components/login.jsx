@@ -133,7 +133,7 @@ const handleGuestLogin = async () => {
                         <label htmlFor="persist">trust this devise</label>
                 </div>
             </form>
-            <a href="http://localhost:3000/auth/google" className="google-btn">
+            <a href={`${import.meta.env.VITE_API_URL}/auth/google`} className="google-btn">
                 Sign in with Google
             </a>
             <p>Need an account? <a href="/register">Register</a></p>
