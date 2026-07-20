@@ -11,7 +11,7 @@ const LOGIN_URL = 'auth/login';
 import { faEye,faEyeSlash} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
 
-const login = () => {
+const Login = () => {
     const { setAuth } = useAuth();
 
     const navigate = useNavigate();
@@ -149,4 +149,4 @@ const handleGuestLogin = async () => {
   )
 }
 
-export default login
+export default Login
