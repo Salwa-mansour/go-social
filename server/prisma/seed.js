@@ -1,5 +1,15 @@
+
 import prisma from '../data/connection.js'; // This already initializes your client with the pg adapter!
 import bcrypt from 'bcryptjs';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// This forces dotenv to look in your server root folder, not the prisma folder
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 async function main() {
   console.log('🌱 Starting database seeding...');

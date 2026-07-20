@@ -50,10 +50,6 @@ const handleLikeUpdateInState = (postId, willBeLiked) => {
 };
 
 
-  if (!posts || posts.length === 0) {
-    return <p>No posts available.</p>;
-  }
-
   return (
     <>
     
@@ -64,10 +60,12 @@ const handleLikeUpdateInState = (postId, willBeLiked) => {
           )
       }
    
-    
-   
 
     <div className="posts-container  glass-container">
+        {(!posts || posts.length === 0) &&
+        <p>No posts available.</p>
+        
+        }
       <ul className="posts-list">
         {posts.map((post) => (
          
