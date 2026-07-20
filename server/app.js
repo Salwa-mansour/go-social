@@ -15,12 +15,28 @@ const app = express();
 const allowedOrigins = process.env.NODE_ENV === 'production'
                         ? [process.env.PRODUCTION_CLIENT] // <-- Replace with your live frontend URL
                         : [process.env.DEVELOPMENT_CLIENT]; // Local development URL
+const allowedOrigins = process.env.NODE_ENV === 'production'
+    ? [process.env.PRODUCTION_CLEINT]
+    : [process.env.DEVELOPMENT_CLEINT];
+
+// ADD THIS LOG TO DEBUG:
+console.log("Current NODE_ENV:", process.env.NODE_ENV);
+console.log("Loaded Allowed Origins:", allowedOrigins);
+
 const corsOptions = {
-    origin:allowedOrigins, 
-    credentials: true,                
-    optionsSuccessStatus: 200         
+  origin: (origin, callback) => {
+    // If the request comes from an allowed origin, or has no origin (like Postman)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log("Blocked by CORS. Origin was:", origin); // Log what origin failed
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200
 };
-// app.use(cors({ origin: `http://localhost:${process.env.urlPORT || 3000}`, credentials: true })); // ADJUSTED: for frontend communication
+
 app.use(cors(corsOptions));
 app.use(express.json()); // ADJUSTED: To handle JSON API requests instead of form-data only
 app.use(express.urlencoded({ extended: false }));
