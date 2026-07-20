@@ -14,6 +14,7 @@ const router = Router();
 const clientUrl = process.env.NODE_ENV === 'production'
                     ? [process.env.PRODUCTION_CLIENT] // <-- Replace with your live frontend URL
                     : [process.env.DEVELOPMENT_CLIENT]; // Local development URL
+                    
 // POST request to handle registration data submissions
 router.post('/register',signupValidation, handleValidationErrors, registerUser);
 router.post('/login', signInValidation, handleValidationErrors,loginUser);

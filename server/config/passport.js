@@ -4,10 +4,14 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import * as authService from '../servises/authService.js';
 import { updateProfile } from '../servises/userService.js';
 
+const serverUrl = process.env.NODE_ENV === 'production'
+                    ? [process.env.PRODUCTION_SERVER] // <-- Replace with your live frontend URL
+                    : [process.env.DEVELOPMENT_SERVER]; // Local development URL
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/login",
+    callbackURL: `${serverUrl}}/auth/google/login`,
     scope: ['profile', 'email'] // 💡 Ensure 'profile' scope is requested!
   },
   async (accessToken, refreshToken, profile, done) => {
