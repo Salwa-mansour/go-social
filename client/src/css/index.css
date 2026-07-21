@@ -21,7 +21,11 @@ body {
 ul {
     list-style: none;
 }
-
+p {
+  overflow-wrap: anywhere;
+  /* Alternative fallback */
+  word-break: break-word;
+}
 .App {
   display: flex;
   flex-direction: column;
@@ -53,7 +57,7 @@ ul {
     margin: 1.5rem .75rem;
 }
 .form-container {
-    width: 100%;
+    width: 93%;
     position: relative;
     max-width: 400px;
     /* min-height: 400px; */
@@ -61,6 +65,7 @@ ul {
     flex-direction: column;
     justify-content: flex-start;
     padding: 1rem;
+   
     background-color: rgba(0,0,0,0.4);
     border-radius: 6px;
 }

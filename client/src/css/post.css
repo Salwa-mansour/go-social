@@ -68,3 +68,9 @@
   padding-inline: 1rem;
   margin-block: 1rem;
 }
+.user-data{
+      display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

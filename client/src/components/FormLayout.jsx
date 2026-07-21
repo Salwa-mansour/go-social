@@ -18,9 +18,11 @@ const style = {
 const FromLayout = () => {
     return (
         // 3. Reference it using style={style.appCss}
-        <main className="App" style={style.appCss}>
+        <main className="App " style={style.appCss}>
+         
+             <Outlet />
           
-            <Outlet />
+           
         </main>
     );
 };

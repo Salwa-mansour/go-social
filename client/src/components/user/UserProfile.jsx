@@ -71,7 +71,7 @@ function UserProfile() {
     <>
       {/* 👤 Profile Header Card Layout */}
       <header className="top-container" style={{  textAlign: "center" }}>
-        <figure>
+        <figure className="user-data">
           <div className="profile-image" >
             <img 
               src={authorData?.avatarUrl || 'https://placehold.co/150'} 
