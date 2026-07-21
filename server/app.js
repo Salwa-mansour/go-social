@@ -13,8 +13,8 @@ const app = express();
 
 
 const allowedOrigins = process.env.NODE_ENV === 'production'
-    ? [process.env.PRODUCTION_CLEINT]
-    : [process.env.DEVELOPMENT_CLEINT];
+    ? [process.env.PRODUCTION_CLIENT]
+    : [process.env.DEVELOPMENT_CLIENT];
 
 // ADD THIS LOG TO DEBUG:
 console.log("Current NODE_ENV:", process.env.NODE_ENV);

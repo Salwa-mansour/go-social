@@ -1,6 +1,6 @@
 import * as authService from '../servises/authService.js'
 import bcrypt from 'bcryptjs';
-import passport from 'passport';
+import passport from 'passport'; 
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import { generateAndSendTokens } from '../utils/tokens.js';
@@ -177,6 +177,10 @@ export const googleAuth = catchAsync(async (req, res, next) => {
   const clientUrl = process.env.NODE_ENV === 'production'
                         ? [process.env.PRODUCTION_CLIENT] // <-- Replace with your live frontend URL
                         : [process.env.DEVELOPMENT_CLIENT]; // Local development URL
+                      console.log(process.env.NODE_ENV === 'production')
+                      console.log(process.env.PRODUCTION_CLIENT)
+                      console.log(process.env.DEVELOPMENT_CLIENT)
+                        console.log(clientUrl)
   // 2. Redirect back to your React client with the short-lived access token
   return res.redirect(`${clientUrl}/oauth-callback?token=${accessToken}`);
 });
