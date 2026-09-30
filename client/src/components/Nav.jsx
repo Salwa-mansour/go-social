@@ -5,6 +5,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus,faUserPen,faBell ,faHouse} from "@fortawesome/free-solid-svg-icons";
 import "../css/nav.css";
 
+const style={
+  requestItem:{
+    position: 'relative'
+  },
+  requestCount:{
+     position: 'absolute',
+    width: '20px',
+    height: '20px',
+    borderRadius: '50%',
+    background: '#ff4747',
+    fontSize: '.75rem',
+    lineHeight: '20px',
+    textAlign: 'center',
+    left: '50%',
+    top: '10%',
+  }
+}
+
 const Nav = ({requestCount}) => {
   return (
     <nav className="navbar glass-container">    
@@ -25,8 +43,8 @@ const Nav = ({requestCount}) => {
           </Link>
         </li>
         <li>
-          <Link to="/pendingRequests" title="Requests">
-            <span>{requestCount}</span>
+          <Link to="/pendingRequests" title="Requests" style={style.requestItem} >
+            <span style={style.requestCount}>{requestCount}</span>
                 <FontAwesomeIcon icon={faBell} />
           </Link>
         </li>

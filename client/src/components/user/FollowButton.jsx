@@ -27,18 +27,18 @@ function FollowButton({ user, onStateUpdate }) {
   return (
     <div className="follow-action-container">
       {user.isFollowing ? (
-        <button className="follow-btn following" onClick={() => handleFollowToggle(true)} disabled={isLoading}>
+        <button className="follow-btn main-btn following" onClick={() => handleFollowToggle(true)} disabled={isLoading}>
           {isLoading ? '...' : 'Unfollow'}
         </button>
       ) : user.isPending ? (
         <div className="pending-actions-group">
-          <button className="follow-btn pending" disabled={true}>Requested</button>
-          <button className="follow-btn undo" onClick={() => handleFollowToggle(true)} disabled={isLoading}>
+          <button className="follow-btn main-btn pending" disabled={true}>Requested</button>
+          <button className="follow-btn main-btn undo" onClick={() => handleFollowToggle(true)} disabled={isLoading}>
             {isLoading ? '...' : 'Undo'}
           </button>
         </div>
       ) : (
-        <button className="follow-btn" onClick={() => handleFollowToggle(false)} disabled={isLoading}>
+        <button className="follow-btn main-btn" onClick={() => handleFollowToggle(false)} disabled={isLoading}>
           {isLoading ? '...' : 'Follow'}
         </button>
       )}

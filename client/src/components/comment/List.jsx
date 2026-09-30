@@ -2,6 +2,7 @@ import { useAuth } from "../../hooks/useAuth";
 import DeleteCommentBtn from "./DeleteBtn";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit} from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 function CommentList({ comments,setComments,setActiveEditComment,postAuthorId }) {
    const { auth } = useAuth();
@@ -28,25 +29,22 @@ function CommentList({ comments,setComments,setActiveEditComment,postAuthorId })
             <div className="comment-header">
               {/* Optional profile visual details if your backend includes them */}
               {comment.author && (
-                <figure className="comment-author-info">
-                  <img 
-                    src={comment.author.avatarUrl || 'https://placehold.co/40'} 
-                    alt={`${comment.author.name || 'User'}'s avatar`} 
-                    className="comment-avatar"
-                    width="40"
-                  />
-                  <figcaption className="comment-username">
-                    <strong>@{comment.author.name || 'anonymous'}</strong>
-                  </figcaption>
-                </figure>
+                <Link to={`/profile/${comment.authorId}`} >
+                    <figure className="image">
+                      <img 
+                        src={comment.author.avatarUrl || 'https://placehold.co/40'} 
+                        alt={`${comment.author.name || 'User'}'s avatar`} 
+                        className="comment-avatar"
+                        width="40"
+                      />
+              
+                    </figure>
+                     <figcaption className="comment-username">
+                        <strong>@{comment.author.name || 'anonymous'}</strong>
+                      </figcaption>
+                </Link>
               )}
               
-              {comment.createdAt && (
-                <small className="comment-date">
-                  {new Date(comment.createdAt).toLocaleString()}
-                </small>
-              )}
-           
               <div className="comment-action-box">
             
                 {auth?.userId === comment.authorId && (
@@ -72,6 +70,11 @@ function CommentList({ comments,setComments,setActiveEditComment,postAuthorId })
             </div>
 
             <div className="comment-body">
+               {comment.createdAt && (
+                <small className="comment-date">
+                  {new Date(comment.createdAt).toLocaleString()}
+                </small>
+              )}
               <p className="comment-content">{comment.content}</p>
             </div>
           </li>

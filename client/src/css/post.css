@@ -2,6 +2,9 @@
     outline:1px solid green;
     display: flex;
 } */
+ .like-btn{
+  color: var(--main-color);
+ }
 .like-btn:hover {
   transform: scale(1.1);
   transition: transform 0.1s ease-in-out;
@@ -18,7 +21,11 @@
   position: relative;
   margin-block:.5rem;
   padding:.5rem;
+  border-bottom: 2px solid #ffffff1c
   
+}
+.comment-item:last-child{
+  border-bottom: none;
 }
 .post-item a{
   text-decoration: none;
@@ -30,9 +37,7 @@
   display: flex ;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  inset-inline-end: .5rem;
-  inset-block-start: .2rem;
+ 
 }
 .post-actions-box > * ,
 .comment-actions-box > * {
@@ -41,6 +46,9 @@
  padding :.25rem;
  border-radius: 3px;
  height: 2rem;
+}
+.comment-date{
+  font-size: .5rem;
 }
 .post-author-info a{
   display: flex;
@@ -57,9 +65,17 @@
   margin-bottom: 1rem;
 }
 
-.post-detail{
-  padding: 1rem;
+.post-detail,
+.post-item{
+  padding:2rem 1rem;
  
+}
+.post-item header,
+.comment-header,
+.post-detail header{
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .post-content-area{
   padding-block: .5rem;

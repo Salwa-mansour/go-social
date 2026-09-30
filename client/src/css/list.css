@@ -8,6 +8,7 @@
     justify-content: center;
 }
 .request-actions button{
+    margin: initial;
     margin-top: 0;
 }
 .user-item{
@@ -43,7 +44,9 @@
     gap: .25rem;
 }
 .follow-action-container button{
-    font-size: 1rem;
+    font-size: .8rem;
+    width: auto;
+    margin: initial;
 }
 /* .user-card-actions{
     margin-inline-start: auto;

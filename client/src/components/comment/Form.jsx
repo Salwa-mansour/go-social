@@ -70,7 +70,7 @@ function CommentForm({ postId, editData = null,onCommentsChange ,onSuccess }) {
           onChange={(e) => setComment(e.target.value)}
           placeholder={isEditMode ? "Modify your comment..." : "Write a comment..."}
         />
-        <button type="submit" disabled={sending}>
+        <button type="submit" disabled={sending} className="main-btn" >
           {sending 
             ? (isEditMode ? "Updating..." : "Posting...") 
             : (isEditMode ? "Update" : "Comment")

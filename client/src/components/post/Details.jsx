@@ -117,19 +117,7 @@ const handleCommentsChange = (newComment) => {
     <div  className="main-content  glass-container top-container">
      
         <article className="post-detail" >
-           {
-            auth?.userId === post.authorId && (
-              <div className="post-actions-box">
-               
-                <Link to={`/post/edit/${post.id}`} className="action-btn edit-btn" title="edit post">
-                    <FontAwesomeIcon icon={faEdit} />
-                </Link>
-                
-                <DeletePostBtn postId={post.id} onDeleteSuccess={handleDeleteFromState} />
-              </div>
-            )
-              
-            }
+          
           <header> 
             <Link to={`/profile/${post.author.id}`}>
             <figure>
@@ -142,7 +130,20 @@ const handleCommentsChange = (newComment) => {
               </div>  
               <figcaption>@{post.author?.name || 'anonymous'}</figcaption>
             </figure>
+            </Link>
+             {
+            auth?.userId === post.authorId && (
+              <div className="post-actions-box">
+               
+                <Link to={`/post/edit/${post.id}`} className="action-btn edit-btn" title="edit post">
+                    <FontAwesomeIcon icon={faEdit} />
                 </Link>
+                
+                <DeletePostBtn postId={post.id} onDeleteSuccess={handleDeleteFromState} />
+              </div>
+            )
+              
+            }
           </header>
           
           <section className="post-content-area">

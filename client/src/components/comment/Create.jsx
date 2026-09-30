@@ -46,7 +46,7 @@ function CreateComment({ postId }) {
           placeholder="Write a comment..."
         />
         <button type="submit"
-          className="btn"
+          className="btn "
          disabled={sending} 
        
          >

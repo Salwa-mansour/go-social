@@ -58,14 +58,14 @@ export default function PendingRequests() {
               
               <div className="request-actions">
                 <button 
-                  className="accept-btn"
+                  className="accept-btn main-btn"
                   onClick={() => handleAction(req.id, 'accept')}
                   disabled={actionLoading[req.id]}
                 >
                   {actionLoading[req.id] ? '...' : 'Accept'}
                 </button>
                 <button 
-                  className="reject-btn"
+                  className="reject-btn main-btn"
                   onClick={() => handleAction(req.id, 'reject')}
                   disabled={actionLoading[req.id]}
                 >

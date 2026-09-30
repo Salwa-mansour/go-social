@@ -137,13 +137,13 @@ const handleGuestLogin = async () => {
                 Sign in with Google
             </a>
             <p>Need an account? <a href="/register">Register</a></p>
-            <button 
-            type="button" 
+            <a 
+             
             onClick={handleGuestLogin} 
             className="guest-btn"
             >
-            Login as Guest
-            </button>
+            Login as guest
+            </a>
         </section>
   
   )

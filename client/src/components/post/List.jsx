@@ -11,7 +11,7 @@ import "../../css/post.css";
 
 function PostList({ posts , setPosts,pageOwnerId = 0 }) {
   const { auth } = useAuth();
-
+  console.log(posts)
 const handlePostCreate = (post) => {
   // If the backend response lacks the populated author relational data, supply a fallback
   const completePostData = {
@@ -61,7 +61,7 @@ const handleLikeUpdateInState = (postId, willBeLiked) => {
       }
    
 
-    <div className="posts-container  glass-container">
+    <div className="posts-container  ">
         {(!posts || posts.length === 0) &&
         <p>No posts available.</p>
         
@@ -70,37 +70,37 @@ const handleLikeUpdateInState = (postId, willBeLiked) => {
         {posts.map((post) => (
          
           <li key={post.id} className="post-item glass-container">
-            {
-            auth?.userId === post.authorId && (
-              <div className="post-actions-box">
-               
-                <Link to={`/post/edit/${post.id}`} className="action-btn edit-btn" title="edit post">
-                    <FontAwesomeIcon icon={faEdit} />
-                </Link>
-                
-                <DeletePostBtn postId={post.id} onDeleteSuccess={handleDeleteFromState} />
-              </div>
-            )
-              
-            }
+           
        
-            <figure className="post-author-info">
-                <Link to={`/profile/${post.author.id}`}>
-                    <div className="image">
+            <header className="post-author-info">
+                <Link to={`/profile/${post.authorId}`}>
+                    <figure className="image">
                       <img 
                       src={post.author?.avatarUrl || 'https://placehold.co/100'} 
                       alt={`${post.author?.name || 'User'}'s profile`} 
                       width="100" 
                     />
-                    </div>
-                 
-                    
+                    </figure>
                     <figcaption>@{post.author?.name || 'anonymous'}</figcaption>
                 </Link>
-            </figure>
+
+                 {
+                  auth?.userId === post.authorId && (
+                    <div className="post-actions-box">
+                    
+                      <Link to={`/post/edit/${post.id}`} className="action-btn edit-btn" title="edit post">
+                          <FontAwesomeIcon icon={faEdit} />
+                      </Link>
+                      
+                      <DeletePostBtn postId={post.id} onDeleteSuccess={handleDeleteFromState} />
+                    </div>
+                  )
+                    
+                  }
+            </header>
             
-            <div className="post-body">
-              <Link to={`post/${post.id}`}>
+            <div className="post-body" >
+              <Link to={`/post/${post.id}`}  >
                   <p className="post-content">{post.content}</p>
                   <small className="post-date">
                     {new Date(post.createdAt).toLocaleString()}
