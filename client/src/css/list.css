@@ -9,7 +9,7 @@
 }
 .request-actions button{
     margin: initial;
-    margin-top: 0;
+    margin-top: 1rem;
 }
 .user-item{
      display: flex;
