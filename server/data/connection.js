@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { PrismaClient } from '../prisma/generated/client/index.js';
+import { PrismaClient } from '@prisma/client';
 import ws from 'ws';
 
 // Debug check to verify what Render is passing at runtime
