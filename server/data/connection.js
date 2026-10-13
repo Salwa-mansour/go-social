@@ -1,23 +1,43 @@
-
-// import {PrismaClient} from '../prisma/generated/client/index.js';
-import { PrismaClient } from '@prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
-import { Pool } from 'pg';
 import dotenv from 'dotenv';
-dotenv.config(); 
+dotenv.config();
 
-// Create a PostgreSQL connection pool
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false // Lets node-postgres accept Aiven's SSL connection securely
-  }
-});
+import { PrismaClient } from '../prisma/generated/client/index.js';
+import ws from 'ws';
 
-// Create the Prisma adapter
-const adapter = new PrismaPg(pool);
+// Debug check to verify what Render is passing at runtime
+console.log("DATABASE_URL check at runtime:", process.env.DATABASE_URL ? "Exists length: " + process.env.DATABASE_URL.length : "UNDEFINED!!!");
 
-// Initialize PrismaClient with the adapter
-const prisma = new PrismaClient({ adapter });
+const connectionString = process.env.DATABASE_URL;
 
+if (!connectionString) {
+  throw new Error("CRITICAL: DATABASE_URL is missing at runtime!");
+}
+
+let prisma;
+
+const isProduction =  connectionString.includes('neon.tech');
+// Clean the connection string for the Neon serverless WebSocket driver
+let cleanedConnectionString = connectionString;
+
+if (isProduction) {
+  const { PrismaNeon } = await import('@prisma/adapter-neon');
+  const { neonConfig } = await import('@neondatabase/serverless');
+
+  neonConfig.webSocketConstructor = ws;
+
+  // Pass the connection string object directly to PrismaNeon
+  const adapter = new PrismaNeon({ connectionString });
+  prisma = new PrismaClient({ adapter });
+  console.log('🔌 Connected using Neon Adapter (Production)');
+} else {
+  // Local environment can keep standard parameters if needed, or use cleaned string
+  const { PrismaPg } = await import('@prisma/adapter-pg');
+  const pkg = await import('pg');
+  const { Pool } = pkg;
+
+  const pool = new Pool({ connectionString });
+  const adapter = new PrismaPg(pool);
+  prisma = new PrismaClient({ adapter });
+  console.log('💻 Connected using Standard PG Adapter (Local)');
+}
 export default prisma;
