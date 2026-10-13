@@ -4,7 +4,7 @@
 
 A minimal social networking web application built to replicate core social media interactions, featuring real-time updates, secure authentication, and a mobile user interface.
 
-[**Explore Live Demo**]([YOUR_LIVE_DEMO_LINK_HERE](https://go-social-chi.vercel.app) · [**Report Bug**](https://github.com/Salwa-mansour/go-social/issues)
+[**Explore Live Demo**]([LIVE_DEMO_LINK](https://go-social-chi.vercel.app) · [**Report Bug**](https://github.com/Salwa-mansour/go-social/issues)
 
 </div>
 
